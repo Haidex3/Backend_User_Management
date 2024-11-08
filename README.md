@@ -114,4 +114,9 @@ GRANT INSERT, UPDATE, DELETE ON TABLE administrators TO libraryDirector;
 GRANT INSERT, UPDATE, DELETE ON TABLE students TO libraryDirector;
 ```
 
+## GIT FLOW
+
+![image](https://github.com/user-attachments/assets/3d7357e6-4f33-4de2-a604-328218f742f4)
+
+
 
