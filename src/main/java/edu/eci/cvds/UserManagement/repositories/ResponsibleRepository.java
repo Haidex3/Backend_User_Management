@@ -8,9 +8,21 @@ import org.springframework.stereotype.Repository;
 import java.sql.*;
 import java.sql.SQLException;
 
+
+/**
+ * ResponsibleRepository is a data access class that manages database interactions for
+ * the Responsible entity. It allows saving a new Responsible record and retrieving a
+ * Responsible by document type and number.
+ */
 @Repository
 public class ResponsibleRepository {
 
+    /**
+     * Saves a Responsible entity to the database.
+     *
+     * @param responsible The Responsible entity to be saved.
+     * @throws SQLException if an SQL exception occurs during the save operation.
+     */
     public void saveResponsible(Responsible responsible) throws SQLException {
         String sql = "INSERT INTO responsibles (id, name, email, phone_number, address, document, type_document) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
@@ -28,6 +40,14 @@ public class ResponsibleRepository {
         }
     }
 
+    /**
+     * Finds and retrieves a Responsible entity by its document type and number.
+     *
+     * @param responsibleDocType  The document type of the Responsible.
+     * @param responsibleDocNumber The document number of the Responsible.
+     * @return The Responsible entity if found, otherwise null.
+     * @throws SQLException if an SQL exception occurs during the retrieval.
+     */
     public Responsible findResponsibleByDocument(String responsibleDocType, Long responsibleDocNumber) throws SQLException {
         String sql = "SELECT * FROM responsibles WHERE type_document = ? AND document = ?";
         try (Connection connection = DBConnection.getConnection();
@@ -45,5 +65,5 @@ public class ResponsibleRepository {
             }
         }
     }
-
 }
+

@@ -1,4 +1,10 @@
 package edu.eci.cvds.UserManagement.model;
+
+/**
+ * The UserManagementException class represents custom exceptions specifically
+ * related to user management operations in the system. This class provides
+ * predefined error messages for common user management issues.
+ */
 public class UserManagementException extends Exception {
 
     public static final String USER_NOT_FOUND = "User not found with the given ID.";
@@ -11,8 +17,12 @@ public class UserManagementException extends Exception {
     public static final String USER_DELETION_FAILED = "Failed to delete the user.";
     public static final String EMAIL_ALREADY_EXISTS = "A user with the given email already exists.";
 
+    /**
+     * Constructs a new UserManagementException with a specified error message.
+     *
+     * @param message the detail message for the exception.
+     */
     public UserManagementException (String message)	{
         super(message);
     }
-
 }

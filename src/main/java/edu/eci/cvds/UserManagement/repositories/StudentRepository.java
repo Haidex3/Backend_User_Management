@@ -8,9 +8,19 @@ import java.sql.*;
 
 import java.sql.SQLException;
 
+/**
+ * StudentRepository is a data access class that manages database interactions for
+ * the Student entity, allowing saving of Student records to the database.
+ */
 @Repository
 public class StudentRepository {
 
+    /**
+     * Saves a Student entity to the database.
+     *
+     * @param student The Student entity to be saved.
+     * @throws SQLException if an SQL exception occurs during the save operation.
+     */
     public void saveStudent(Student student) throws SQLException {
         String sql = "INSERT INTO students (id, name, course, academic_year, responsible, relation_with_responsible) VALUES (?, ?, ?, ?, ?, ?)";
 
@@ -26,5 +36,4 @@ public class StudentRepository {
             statement.executeUpdate();
         }
     }
-
 }
