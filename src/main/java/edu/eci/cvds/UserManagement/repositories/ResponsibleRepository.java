@@ -28,13 +28,13 @@ public class ResponsibleRepository {
         }
     }
 
-    public Responsible findResponsibleByDocument(String responsibleDocType, String responsibleDocNumber) throws SQLException {
+    public Responsible findResponsibleByDocument(String responsibleDocType, Long responsibleDocNumber) throws SQLException {
         String sql = "SELECT * FROM responsibles WHERE type_document = ? AND document = ?";
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
 
             statement.setString(1, responsibleDocType);
-            statement.setString(2, responsibleDocNumber);
+            statement.setLong(2, responsibleDocNumber);
 
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
