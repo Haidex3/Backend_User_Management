@@ -24,17 +24,17 @@ public class ResponsibleRepository {
      * @throws SQLException if an SQL exception occurs during the save operation.
      */
     public void saveResponsible(Responsible responsible) throws SQLException {
-        String sql = "INSERT INTO responsibles (id, name, email, phone_number, address, document, type_document) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO public.responsibles (document, identification_type,name, phone_number, email, address) VALUES (?, ?, ?, ?, ?, ?)";
 
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setLong(1, responsible.getDocument());
-            statement.setString(1, responsible.getName());
-            statement.setString(2, responsible.getEmail());
-            statement.setString(3, responsible.getPhoneNumber());
-            statement.setString(4, responsible.getAddress());
+            statement.setString(3, responsible.getName());
+            statement.setString(5, responsible.getEmail());
+            statement.setString(4, responsible.getPhoneNumber());
+            statement.setString(6, responsible.getAddress());
             //statement.setString(5, responsible.getDocument());
-            statement.setString(6, responsible.getTypeDocument());
+            statement.setString(2, responsible.getTypeDocument());
 
             statement.executeUpdate();
         }
