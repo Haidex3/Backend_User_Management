@@ -1,15 +1,14 @@
 package edu.eci.cvds.UserManagement.controller;
 
+import edu.eci.cvds.UserManagement.service.FindService;
 import edu.eci.cvds.UserManagement.service.RegisterService;
 import edu.eci.cvds.UserManagement.model.Responsible;
 import edu.eci.cvds.UserManagement.model.Student;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -27,19 +26,20 @@ import java.util.Optional;
 @RequestMapping
 public class RegisterController {
     private final RegisterService registerService;
+    private final FindService findService;
 
     /**
      * Constructor to initialize the RegisterController with the required RegisterService dependency.
      *
      * @param registerService the service responsible for handling the registration of students and responsible persons.
      */
-    public RegisterController(RegisterService registerService) {
+    public RegisterController(RegisterService registerService, FindService newFindService) {
         this.registerService = registerService;
+        this.findService = newFindService;
     }
 
     /**
      * Endpoint to handle the registration of a new student.
-     *
      * This method accepts a `Student` object in the request body, attempts to register the student using the
      * RegisterService, and returns a response with a success or failure message.
      *
@@ -63,7 +63,6 @@ public class RegisterController {
 
     /**
      * Endpoint to handle the registration of a new responsible person.
-     *
      * This method accepts a `Responsible` object in the request body, attempts to register the responsible
      * person using the RegisterService, and returns a response with a success or failure message.
      *
@@ -81,6 +80,26 @@ public class RegisterController {
         } else {
             response.put("message", "Registration failed");
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+        }
+    }
+
+    @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping("/findResponsibleByDocument")
+    public ResponseEntity<Map<String, Object>> findResponsibleByDocument(
+            @RequestParam String responsibleDocType,
+            @RequestParam Long responsibleDocNumber) throws SQLException {
+
+        Map<String, Object> response = new HashMap<>();
+
+        Responsible responsible = findService.findResponsibleByDocument(responsibleDocType, responsibleDocNumber);
+
+        if (responsible != null) {
+            response.put("message", "Responsible found successfully!");
+            response.put("Responsible", responsible);
+            return ResponseEntity.ok(response);
+        } else {
+            response.put("message", "Responsible not found");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
         }
     }
 }

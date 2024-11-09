@@ -49,7 +49,7 @@ public class ResponsibleRepository {
      * @throws SQLException if an SQL exception occurs during the retrieval.
      */
     public Responsible findResponsibleByDocument(String responsibleDocType, Long responsibleDocNumber) throws SQLException {
-        String sql = "SELECT * FROM responsibles WHERE type_document = ? AND document = ?";
+        String sql = "SELECT * FROM public.responsibles WHERE type_document = ? AND document = ?";
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
 
