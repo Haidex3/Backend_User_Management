@@ -83,7 +83,6 @@ public class RegisterController {
         }
     }
 
-    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/findResponsibleByDocument")
     public ResponseEntity<Map<String, Object>> findResponsibleByDocument(
             @RequestParam String responsibleDocType,
