@@ -40,7 +40,7 @@ representar a varios estudiantes siempre y cuando estos tengan un parentezco.
 Se diseña la base de datos `usermanagement` con los siguientes detalles:
 
 
-![image](https://github.com/user-attachments/assets/b1678ae2-2b63-4fb7-86c8-5a5813db7ba0)
+![image](https://github.com/user-attachments/assets/dcacd7ed-9386-4b19-a537-7575b1bbde72)
 
 
 
@@ -80,8 +80,8 @@ CREATE TABLE Students (
     code VARCHAR(50),
     identification_type VARCHAR(20),
     identification_number VARCHAR(50),
-    userName INTEGER,
-    password INTEGER,
+    userName VARCHAR(50),
+    password VARCHAR(50),
     name VARCHAR(100),
     academicYear INTEGER,
     relationWithResponsible VARCHAR(50),
