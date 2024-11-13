@@ -78,12 +78,11 @@ public class RegisterServiceTest {
     public void testFindResponsibleByDocumentSuccess() throws SQLException {
         // Create a mock Responsible object
         Responsible responsible = new Responsible(123456L, "ID", "Jane Doe", "555-1234", "jane.doe@example.com", "123 Main St");
-        String docType = "ID";
         Long docNumber = 123456L;
 
-        when(responsibleRepository.findResponsibleByDocument(docType, docNumber)).thenReturn(responsible);
+        when(responsibleRepository.findResponsibleByDocument(docNumber)).thenReturn(responsible);
 
-        Optional<Responsible> result = registerService.findResponsibleByDocument(docType, docNumber);
+        Optional<Responsible> result = registerService.findResponsibleByDocument(docNumber);
 
         assertTrue(result.isPresent());
         assertEquals(responsible, result.get());
@@ -91,12 +90,11 @@ public class RegisterServiceTest {
 
     @Test
     public void testFindResponsibleByDocumentNotFound() throws SQLException {
-        String docType = "ID";
         Long docNumber = 123456L;
 
-        when(responsibleRepository.findResponsibleByDocument(docType, docNumber)).thenReturn(null);
+        when(responsibleRepository.findResponsibleByDocument(docNumber)).thenReturn(null);
 
-        Optional<Responsible> result = registerService.findResponsibleByDocument(docType, docNumber);
+        Optional<Responsible> result = registerService.findResponsibleByDocument(docNumber);
 
         assertTrue(result.isEmpty());
     }

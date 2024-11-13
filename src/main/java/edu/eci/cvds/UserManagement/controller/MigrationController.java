@@ -65,7 +65,7 @@ public class MigrationController {
                 String studentCourse = data[2];
                 int studentYear = Integer.parseInt(data[3]);
                 String responsibleName = data[4];
-                String responsibleDocType = data[5];
+                String responsibleDocSite = data[5];
                 Long responsibleDocNumber = Long.valueOf(data[6]);
                 String responsibleEmail = data[7];
                 String responsiblePhone = data[8];
@@ -75,11 +75,11 @@ public class MigrationController {
                 Optional<Responsible> existingResponsible;
                 Responsible responsible;
                 try {
-                    existingResponsible = registerService.findResponsibleByDocument(responsibleDocType, responsibleDocNumber);
+                    existingResponsible = registerService.findResponsibleByDocument(responsibleDocNumber);
                     if (existingResponsible.isPresent()) {
                         responsible = existingResponsible.get();
                     } else {
-                        responsible = new Responsible(responsibleDocNumber,responsibleDocType,responsibleName,responsiblePhone,responsibleEmail,responsibleAddress);
+                        responsible = new Responsible(responsibleDocNumber,responsibleDocSite,responsibleName,responsiblePhone,responsibleEmail,responsibleAddress);
 
                         registerService.registerResponsible(responsible);
                     }

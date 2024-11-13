@@ -16,9 +16,9 @@ public class FindService {
         this.responsibleRepository = responsibleRepository;
     }
 
-    public Responsible findResponsibleByDocument(String responsibleDocType, Long responsibleDocNumber) {
+    public Responsible findResponsibleByDocument(Long responsibleDocNumber) {
         try {
-            return responsibleRepository.findResponsibleByDocument(responsibleDocType, responsibleDocNumber);
+            return responsibleRepository.findResponsibleByDocument(responsibleDocNumber);
         } catch (SQLException e) {
             System.err.println("Error al buscar responsable: " + e.getMessage());
             return null;

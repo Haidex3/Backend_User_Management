@@ -24,17 +24,15 @@ public class ResponsibleRepository {
      * @throws SQLException if an SQL exception occurs during the save operation.
      */
     public void saveResponsible(Responsible responsible) throws SQLException {
-        String sql = "INSERT INTO public.responsibles (document, identification_type,name, phone_number, email, address) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO public.responsibles (document, identification_site,name, phone_number, email, address) VALUES (?, ?, ?, ?, ?, ?)";
 
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setLong(1, responsible.getDocument());
+            statement.setString(2, responsible.getSiteDocument());
             statement.setString(3, responsible.getName());
             statement.setString(5, responsible.getEmail());
             statement.setString(4, responsible.getPhoneNumber());
-            statement.setString(6, responsible.getAddress());
-            //statement.setString(5, responsible.getDocument());
-            statement.setString(2, responsible.getTypeDocument());
 
             statement.executeUpdate();
         }
@@ -43,18 +41,14 @@ public class ResponsibleRepository {
     /**
      * Finds and retrieves a Responsible entity by its document type and number.
      *
-     * @param responsibleDocType  The document type of the Responsible.
      * @param responsibleDocNumber The document number of the Responsible.
      * @return The Responsible entity if found, otherwise null.
      * @throws SQLException if an SQL exception occurs during the retrieval.
      */
-    public Responsible findResponsibleByDocument(String responsibleDocType, Long responsibleDocNumber) throws SQLException {
-        String sql = "SELECT * FROM public.responsibles WHERE document = ? AND identification_type = ?";
+    public Responsible findResponsibleByDocument(Long responsibleDocNumber) throws SQLException {
+        String sql = "SELECT * FROM public.responsibles WHERE document = ? AND identification_site = ?";
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
-            String prueba= "CC";
-
-            statement.setString(2, prueba);
             statement.setLong(1, responsibleDocNumber);
 
             try (ResultSet resultSet = statement.executeQuery()) {

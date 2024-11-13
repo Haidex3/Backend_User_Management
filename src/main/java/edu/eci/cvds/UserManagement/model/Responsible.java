@@ -12,25 +12,25 @@ public class Responsible {
     //private List<Student> students;
     private final String address;
     private final Long document;
-    private final String typeDocument;
+    private final String siteDocument;
 
     /**
      * Constructs a new Responsible object with the specified details.
      *
      * @param document the identification number of the responsible person.
-     * @param typeDocument the type of document (e.g., ID, passport) used for identification.
+     * @param siteDocument the type of document (e.g., ID, passport) used for identification.
      * @param name the name of the responsible person.
      * @param phoneNumber the phone number of the responsible person.
      * @param email the email address of the responsible person.
      * @param address the residential address of the responsible person.
      */
-    public Responsible(Long document, String typeDocument, String name, String phoneNumber, String email,  String address) {
+    public Responsible(Long document, String siteDocument, String name, String phoneNumber, String email,  String address) {
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.address = address;
         this.document = document;
-        this.typeDocument = typeDocument;
+        this.siteDocument = siteDocument;
     }
 
     //public String getDocument() {
@@ -42,8 +42,8 @@ public class Responsible {
      *
      * @return the type of document (e.g., ID, passport).
      */
-    public String getTypeDocument() {
-        return typeDocument;
+    public String getSiteDocument() {
+        return siteDocument;
     }
     /**
      * Gets the document number of the responsible person.
