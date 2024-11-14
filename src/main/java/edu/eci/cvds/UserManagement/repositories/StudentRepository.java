@@ -32,7 +32,7 @@ public class StudentRepository {
             statement.setString(4, student.getPassword());
             statement.setLong(5, student.getDocument());
             statement.setString(6, student.getDocumentType());
-            statement.setInt(7, student.getCourse());
+            statement.setString(7, student.getCourse());
             statement.setString(8, student.getGrade());
             statement.setLong(9, student.getResponsibleDocument());
             statement.executeUpdate();

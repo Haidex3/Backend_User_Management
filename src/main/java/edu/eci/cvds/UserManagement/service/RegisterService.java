@@ -40,13 +40,4 @@ public class RegisterService {
         }
     }
 
-
-    public Optional<edu.eci.cvds.UserManagement.model.Responsible> findResponsibleByDocument(Long responsibleDocNumber) {
-        try{
-            return Optional.ofNullable(responsibleRepository.findResponsibleByDocument(responsibleDocNumber));
-        }
-        catch(Exception e){
-            return Optional.empty();
-        }
-    }
 }

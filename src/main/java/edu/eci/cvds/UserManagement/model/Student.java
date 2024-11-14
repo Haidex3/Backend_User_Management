@@ -14,17 +14,17 @@ public class Student {
     private String password;
     private final Long document;
     private final String documentType;
-    private Integer course;
+    private String course;
     private String grade;
     private final Long responsibleDocument;
 
 
-    public Student (Long id, String password, String name, String userName, Long document, String documentType, Integer course, String grade, Long responsibleDocument){
+    public Student (Long id, String name,Long document, String documentType, String course, String grade, Long responsibleDocument){
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        String encodedPassword = passwordEncoder.encode(password);
+        String encodedPassword = passwordEncoder.encode(String.valueOf(id));
         this.id = id;
         this.name=name;
-        this.userName = userName;
+        this.userName = name;
         this.password = encodedPassword;
         this.document = document;
         this.documentType = documentType;
@@ -80,7 +80,7 @@ public class Student {
      *
      * @return the course name.
      */
-    public Integer getCourse() {
+    public String getCourse() {
         return course;
     }
 
@@ -90,7 +90,7 @@ public class Student {
      *
      * @param course the new course name.
      */
-    public void setCourse(Integer course) {
+    public void setCourse(String course) {
         this.course = course;
     }
 

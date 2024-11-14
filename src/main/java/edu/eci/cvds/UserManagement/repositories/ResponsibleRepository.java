@@ -46,7 +46,7 @@ public class ResponsibleRepository {
      * @throws SQLException if an SQL exception occurs during the retrieval.
      */
     public Responsible findResponsibleByDocument(Long responsibleDocNumber) throws SQLException {
-        String sql = "SELECT * FROM public.responsibles WHERE document = ?";
+        String sql = "SELECT * FROM public.responsibles WHERE document = CAST(? AS VARCHAR);\n";
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setLong(1, responsibleDocNumber);

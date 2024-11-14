@@ -7,19 +7,19 @@ package edu.eci.cvds.UserManagement.model;
 
 public class Responsible {
     private final String name;
-    private final String phoneNumber;
-    private final String email;
-    //private List<Student> students;
     private final Long document;
     private final String siteDocument;
+    private final String phoneNumber;
+    private final String email;
+
 
 
     public Responsible(Long document, String siteDocument, String name, String phoneNumber, String email) {
         this.name = name;
-        this.phoneNumber = phoneNumber;
-        this.email = email;
         this.document = document;
         this.siteDocument = siteDocument;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
     }
 
     //public String getDocument() {
