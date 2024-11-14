@@ -37,7 +37,7 @@ public class MigrationController {
         this.registerService = registerService;
     }
 
-    
+
     @PostMapping("/migrate-data")
     public String migrateData(@RequestParam("file") MultipartFile file) {
         if (file.isEmpty()) {
@@ -53,8 +53,6 @@ public class MigrationController {
                 String studentName = data[1];
                 String studentUsername = data[1];
                 String studentPassword = data[0];
-                BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-                String encodedPassword = passwordEncoder.encode(studentPassword);
                 Long studentDocument= Long.valueOf(data[2]);
                 String studentDocumentType = data[3];
                 String responsibleName = data[4];
@@ -76,7 +74,7 @@ public class MigrationController {
                         registerService.registerResponsible(responsible);
                     }
 
-                    Student student = new Student(studentId, studentName, studentUsername, encodedPassword, studentDocument, studentDocumentType, studentCourse, studentGrade, responsibleDocNumber);
+                    Student student = new Student(studentId, studentName, studentUsername, studentPassword, studentDocument, studentDocumentType, studentCourse, studentGrade, responsibleDocNumber);
 
                     registerService.registerStudent(student);
                 } catch (Exception e) {

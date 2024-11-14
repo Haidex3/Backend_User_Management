@@ -1,4 +1,7 @@
 package edu.eci.cvds.UserManagement.model;
+
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 /**
  * The Student class represents a student entity, including information about
  * their academic course, year, responsible person, and the relationship with the responsible person.
@@ -17,10 +20,12 @@ public class Student {
 
 
     public Student (Long id, String password, String name, String userName, Long document, String documentType, Integer course, String grade, Long responsibleDocument){
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String encodedPassword = passwordEncoder.encode(password);
         this.id = id;
         this.name=name;
         this.userName = userName;
-        this.password = password;
+        this.password = encodedPassword;
         this.document = document;
         this.documentType = documentType;
         this.course = course;

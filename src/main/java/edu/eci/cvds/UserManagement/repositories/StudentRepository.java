@@ -34,7 +34,7 @@ public class StudentRepository {
             statement.setString(6, student.getDocumentType());
             statement.setInt(7, student.getCourse());
             statement.setString(8, student.getGrade());
-            statement.setString(9, student.getResponsibleDocument());
+            statement.setLong(9, student.getResponsibleDocument());
             statement.executeUpdate();
         }
     }
