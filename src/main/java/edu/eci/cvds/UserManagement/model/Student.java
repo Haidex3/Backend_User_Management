@@ -7,28 +7,57 @@ public class Student {
 
     private final Long id;
     private final String name;
-    private String course;
-    private int academicYear;
-    private Responsible responsible;
-    private final String relationWhitResponsible;
+    private final String userName;
+    private String password;
+    private final Long document;
+    private final String documentType;
+    private Integer course;
+    private String grade;
+    private final Long responsibleDocument;
 
-    /**
-     * Constructs a new Student object with the specified details.
-     *
-     * @param id the unique identifier of the student (as a String, converted to Long).
-     * @param name the name of the student.
-     * @param course the current course of the student.
-     * @param academicYear the academic year of the student.
-     * @param responsible the Responsible object representing the person responsible for the student.
-     * @param relationWhitResponsible the relationship between the student and the responsible person.
-     */
-    public Student (String id, String name, String course, int academicYear, Responsible responsible, String relationWhitResponsible){
-        this.id = Long.valueOf(id);
+
+    public Student (Long id, String password, String name, String userName, Long document, String documentType, Integer course, String grade, Long responsibleDocument){
+        this.id = id;
         this.name=name;
-        this.course=course;
-        this.academicYear=academicYear;
-        this.responsible=responsible;
-        this.relationWhitResponsible=relationWhitResponsible;
+        this.userName = userName;
+        this.password = password;
+        this.document = document;
+        this.documentType = documentType;
+        this.course = course;
+        this.grade = grade;
+        this.responsibleDocument = responsibleDocument;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public Long getResponsibleDocument() {
+        return responsibleDocument;
+    }
+
+    public Long getDocument() {
+        return document;
+    }
+
+    public void setGrade(String grade) {
+        this.grade = grade;
+    }
+
+    public String getGrade() {
+        return grade;
+    }
+
+    public String getDocumentType() {
+        return documentType;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     /**
@@ -40,48 +69,23 @@ public class Student {
         return id;
     }
 
-    /**
-     * Gets the academic year of the student.
-     *
-     * @return the academic year.
-     */
-    public int getAcademicYear() {
-        return academicYear;
-    }
 
     /**
      * Gets the course of the student.
      *
      * @return the course name.
      */
-    public String getCourse() {
+    public Integer getCourse() {
         return course;
     }
 
-    /**
-     * Gets the responsible person for the student.
-     *
-     * @return the Responsible object.
-     */
-    public Responsible getResponsible() {
-        return responsible;
-    }
-
-    /**
-     * Sets the academic year of the student.
-     *
-     * @param academicYear the new academic year.
-     */
-    public void setAcademicYear(int academicYear) {
-        this.academicYear = academicYear;
-    }
 
     /**
      * Sets the course of the student.
      *
      * @param course the new course name.
      */
-    public void setCourse(String course) {
+    public void setCourse(Integer course) {
         this.course = course;
     }
 
@@ -94,21 +98,4 @@ public class Student {
         return name;
     }
 
-    /**
-     * Gets the relationship between the student and the responsible person.
-     *
-     * @return the relationship description.
-     */
-    public String getRelationWhitResponsible() {
-        return relationWhitResponsible;
-    }
-
-    /**
-     * Sets the responsible person for the student.
-     *
-     * @param responsible the new Responsible object.
-     */
-    public void setResponsible(Responsible responsible) {
-        this.responsible = responsible;
-    }
 }

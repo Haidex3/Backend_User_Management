@@ -1,6 +1,7 @@
 package edu.eci.cvds.UserManagement.controller;
 
 import edu.eci.cvds.UserManagement.service.RegisterService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import edu.eci.cvds.UserManagement.model.Responsible;
 import edu.eci.cvds.UserManagement.model.Student;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,19 +37,7 @@ public class MigrationController {
         this.registerService = registerService;
     }
 
-    /**
-     * Endpoint to handle the migration of student and responsible data from a provided CSV file.
-     * The file is processed line by line, and each line contains data for a student and their responsible person.
-     * The method processes the data as follows:
-     * 1. Reads the CSV file from the request.
-     * 2. Extracts data for both the student and the responsible person.
-     * 3. Checks if the responsible person already exists in the system based on their document type and number.
-     * 4. Registers a new responsible person if none exists.
-     * 5. Registers the student and associates them with the responsible person.
-     *
-     * @param file the file containing the student and responsible data.
-     * @return a message indicating whether the migration was successful or an error occurred.
-     */
+    
     @PostMapping("/migrate-data")
     public String migrateData(@RequestParam("file") MultipartFile file) {
         if (file.isEmpty()) {
@@ -60,18 +49,21 @@ public class MigrationController {
             while ((line = reader.readLine()) != null) {
                 String[] data = line.split(",");
 
-                String studentId = data[0];
+                Long studentId = Long.valueOf(data[0]);
                 String studentName = data[1];
-                String studentCourse = data[2];
-                int studentYear = Integer.parseInt(data[3]);
+                String studentUsername = data[1];
+                String studentPassword = data[0];
+                BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+                String encodedPassword = passwordEncoder.encode(studentPassword);
+                Long studentDocument= Long.valueOf(data[2]);
+                String studentDocumentType = data[3];
                 String responsibleName = data[4];
-                String responsibleDocSite = data[5];
-                Long responsibleDocNumber = Long.valueOf(data[6]);
-                String responsibleEmail = data[7];
-                String responsiblePhone = data[8];
-                String responsibleAddress = data[9];
-                String relationWithStudent = data[10];
-
+                Long responsibleDocNumber = Long.valueOf(data[5]);
+                String responsibleDocSite= data[6];
+                String responsiblePhone = data[7];
+                String responsibleEmail = data[8];
+                Integer studentCourse = Integer.valueOf(data[9]);
+                String studentGrade = data[10];
                 Optional<Responsible> existingResponsible;
                 Responsible responsible;
                 try {
@@ -79,12 +71,12 @@ public class MigrationController {
                     if (existingResponsible.isPresent()) {
                         responsible = existingResponsible.get();
                     } else {
-                        responsible = new Responsible(responsibleDocNumber,responsibleDocSite,responsibleName,responsiblePhone,responsibleEmail,responsibleAddress);
+                        responsible = new Responsible(responsibleDocNumber,responsibleDocSite,responsibleName,responsiblePhone,responsibleEmail);
 
                         registerService.registerResponsible(responsible);
                     }
 
-                    Student student = new Student(studentId, studentName, studentCourse, studentYear, responsible, relationWithStudent);
+                    Student student = new Student(studentId, studentName, studentUsername, encodedPassword, studentDocument, studentDocumentType, studentCourse, studentGrade, responsibleDocNumber);
 
                     registerService.registerStudent(student);
                 } catch (Exception e) {
