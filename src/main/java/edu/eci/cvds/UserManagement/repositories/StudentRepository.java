@@ -22,19 +22,21 @@ public class StudentRepository {
      * @throws SQLException if an SQL exception occurs during the save operation.
      */
     public void saveStudent(Student student) throws SQLException {
-        String sql = "INSERT INTO public.students (code, name, userName, password, document, document_type, course, grade, responsible_document) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO public.students (id, documenttype, document, userName, password, name, responsibledocument, course) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";  // La consulta está corregida
 
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setLong(1, student.getId());
-            statement.setString(2, student.getName());
-            statement.setString(3, student.getUserName());
-            statement.setString(4, student.getPassword());
-            statement.setLong(5, student.getDocument());
-            statement.setString(6, student.getDocumentType());
-            statement.setString(7, student.getCourse());
-            statement.setString(8, student.getGrade());
-            statement.setLong(9, student.getResponsibleDocument());
+            statement.setString(2, student.getDocumentType());
+            statement.setLong(3, student.getDocument());
+            statement.setNull(4, Types.VARCHAR);
+            statement.setNull(5, Types.VARCHAR);
+            statement.setString(6, student.getName());
+            statement.setLong(7, student.getResponsibleDocument());
+            statement.setString(8, student.getCourse());
+
+            // Ejecutar la actualización
             statement.executeUpdate();
         }
     }

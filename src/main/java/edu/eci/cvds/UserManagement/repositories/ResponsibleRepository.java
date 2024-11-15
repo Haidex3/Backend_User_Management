@@ -24,7 +24,7 @@ public class ResponsibleRepository {
      * @throws SQLException if an SQL exception occurs during the save operation.
      */
     public void saveResponsible(Responsible responsible) throws SQLException {
-        String sql = "INSERT INTO public.responsibles (document, document_site, name, phone_number, email) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO public.responsibles (document, siteDocument, name, phoneNumber, email) VALUES (?, ?, ?, ?, ?)";
 
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -33,10 +33,10 @@ public class ResponsibleRepository {
             statement.setString(3, responsible.getName());
             statement.setString(4, responsible.getPhoneNumber());
             statement.setString(5, responsible.getEmail());
-
             statement.executeUpdate();
         }
     }
+
 
     /**
      * Finds and retrieves a Responsible entity by its document type and number.
@@ -46,19 +46,26 @@ public class ResponsibleRepository {
      * @throws SQLException if an SQL exception occurs during the retrieval.
      */
     public Responsible findResponsibleByDocument(Long responsibleDocNumber) throws SQLException {
-        String sql = "SELECT * FROM public.responsibles WHERE document = CAST(? AS VARCHAR);\n";
+        String sql = "SELECT * FROM public.responsibles WHERE document = ?";
         try (Connection connection = DBConnection.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setLong(1, responsibleDocNumber);
-
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
-                    return new Responsible(resultSet.getLong("document"), resultSet.getString("document_site"),resultSet.getString("name"), resultSet.getString("phone_number"), resultSet.getString("email"));
+                    return new Responsible(
+                            resultSet.getLong("document"),
+                            resultSet.getString("document_site"),
+                            resultSet.getString("name"),
+                            resultSet.getString("phone_number"),
+                            resultSet.getString("email")
+                    );
                 } else {
                     return null;
                 }
             }
         }
     }
+
 }
+
 

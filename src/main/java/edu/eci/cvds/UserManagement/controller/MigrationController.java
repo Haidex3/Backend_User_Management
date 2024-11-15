@@ -1,45 +1,30 @@
 package edu.eci.cvds.UserManagement.controller;
-
-import edu.eci.cvds.UserManagement.service.FindService;
-import edu.eci.cvds.UserManagement.service.RegisterService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import edu.eci.cvds.UserManagement.model.Responsible;
 import edu.eci.cvds.UserManagement.model.Student;
+import edu.eci.cvds.UserManagement.service.FindService;
+import edu.eci.cvds.UserManagement.service.RegisterService;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
+
+import java.io.IOException;
+import java.util.Iterator;
 import java.util.Optional;
 
-/**
- * This class is responsible for handling data migration requests. It receives a file containing student and responsible data,
- * processes each line, and migrates the data to the appropriate service methods.
- * The data migration involves reading a CSV file containing student and responsible information, checking if a responsible person
- * already exists in the system by their document type and number, and either using the existing responsible or registering a new one.
- * Then, the student data is processed and stored accordingly.
- * It exposes a POST endpoint (`/migrate-data`) where the file containing migration data is uploaded.
- * The endpoint will read the file, validate its contents, and call the appropriate services to register students and responsible persons.
- */
 @RestController
 @RequestMapping
 public class MigrationController {
     private final RegisterService registerService;
     private final FindService findService;
 
-    /**
-     * Constructor to initialize the MigrationController with the required RegisterService dependency.
-     *
-     * @param registerService the service responsible for handling the registration of students and responsible persons.
-     */
     public MigrationController(RegisterService registerService, FindService findService) {
         this.registerService = registerService;
         this.findService = findService;
     }
-
 
     @PostMapping("/migrate-data")
     public String migrateData(@RequestParam("file") MultipartFile file) {
@@ -47,44 +32,45 @@ public class MigrationController {
             return "The file is empty.";
         }
 
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(file.getInputStream(), StandardCharsets.UTF_8))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] data = line.split(",");
+        try (Workbook workbook = new XSSFWorkbook(file.getInputStream())) {
+            Sheet sheet = workbook.getSheetAt(0);
+            Iterator<Row> rowIterator = sheet.iterator();
+            rowIterator.next();
 
-                Long studentId = Long.valueOf(data[0]);
-                String studentName = data[1];
-                Long studentDocument= Long.valueOf(data[2]);
-                String studentDocumentType = data[3];
-                String responsibleName = data[4];
-                Long responsibleDocNumber = Long.valueOf(data[5]);
-                String responsibleDocSite= data[6];
-                String responsiblePhone = data[7];
-                String responsibleEmail = data[8];
-                String studentCourse = data[9];
-                String studentGrade = data[10];
-                Optional<Responsible> existingResponsible;
-                Responsible responsible;
-                try {
-                    existingResponsible = Optional.ofNullable(findService.findResponsibleByDocument(responsibleDocNumber));
-                    if (existingResponsible.isPresent()) {
-                        responsible = existingResponsible.get();
-                    } else {
-                        responsible = new Responsible(responsibleDocNumber,responsibleDocSite,responsibleName,responsiblePhone,responsibleEmail);
-
-                        registerService.registerResponsible(responsible);
-                    }
-
-                    Student student = new Student(studentId, studentName, studentDocument, studentDocumentType, studentCourse, studentGrade, responsibleDocNumber);
-
-                    registerService.registerStudent(student);
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
+            while (rowIterator.hasNext()) {
+                Row row = rowIterator.next();
+                Long studentId = (long) row.getCell(0).getNumericCellValue();
+                String studentName = row.getCell(1).getStringCellValue();
+                Long studentDocument = (long) row.getCell(2).getNumericCellValue();
+                String studentDocumentType = row.getCell(3).getStringCellValue();
+                String responsibleName = row.getCell(4).getStringCellValue();
+                Long responsibleDocNumber = (long) row.getCell(5).getNumericCellValue();
+                String responsibleDocSite = row.getCell(6).getStringCellValue();
+                String responsiblePhone = String.valueOf((long) row.getCell(7).getNumericCellValue());;
+                String responsibleEmail = row.getCell(8).getStringCellValue();
+                String studentCourse;
+                if (row.getCell(9).getCellType() == CellType.NUMERIC) {
+                    studentCourse = String.valueOf((long) row.getCell(9).getNumericCellValue());
+                } else {
+                    studentCourse = row.getCell(9).getStringCellValue();
                 }
+                String studentGrade = row.getCell(10).getStringCellValue();
+
+                Optional<Responsible> existingResponsible = Optional.ofNullable(findService.findResponsibleByDocument(responsibleDocNumber));
+                Responsible responsible;
+                if (existingResponsible.isPresent()) {
+                    responsible = existingResponsible.get();
+                } else {
+                    responsible = new Responsible(responsibleDocNumber, responsibleDocSite, responsibleName, responsiblePhone, responsibleEmail);
+                    registerService.registerResponsible(responsible);
+                }
+
+                Student student = new Student(studentId, studentName, studentDocument, studentDocumentType, studentCourse, studentGrade, responsibleDocNumber);
+                registerService.registerStudent(student);
             }
 
             return "Data migration completed successfully.";
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
             return "An error occurred during data migration: " + e.getMessage();
         }
