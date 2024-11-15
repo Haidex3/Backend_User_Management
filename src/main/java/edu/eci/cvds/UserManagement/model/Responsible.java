@@ -22,10 +22,6 @@ public class Responsible {
         this.email = email;
     }
 
-    //public String getDocument() {
-        //return document;
-    //}
-
     /**
      * Gets the type of document used for identification.
      *
