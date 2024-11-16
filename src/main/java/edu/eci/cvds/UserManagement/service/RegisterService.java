@@ -20,33 +20,12 @@ public class RegisterService {
         this.studentRepository = studentRepository;
     }
 
-    public Optional<Student> registerStudent(Student student) {
-        try{
-            studentRepository.saveStudent(student);
-            return Optional.of(student);
-        }
-        catch(Exception e){
-            return Optional.empty();
-        }
+    public Optional<Responsible> registerStudent(Student student) {
+        return studentRepository.save(student);
     }
 
     public Optional<Responsible> registerResponsible(Responsible responsible) {
-        try{
-            responsibleRepository.saveResponsible(responsible);
-            return Optional.of(responsible);
-        }
-        catch(Exception e){
-            return Optional.empty();
-        }
+        return Optional.ofNullable(responsibleRepository.save(responsible));
     }
 
-
-    public Optional<edu.eci.cvds.UserManagement.model.Responsible> findResponsibleByDocument(String responsibleDocType, Long responsibleDocNumber) {
-        try{
-            return Optional.ofNullable(responsibleRepository.findResponsibleByDocument(responsibleDocType, responsibleDocNumber));
-        }
-        catch(Exception e){
-            return Optional.empty();
-        }
-    }
 }
