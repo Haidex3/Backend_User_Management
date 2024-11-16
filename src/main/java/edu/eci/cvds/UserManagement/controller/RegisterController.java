@@ -84,20 +84,8 @@ public class RegisterController {
     }
 
     @GetMapping("/findResponsibleByDocument")
-    public ResponseEntity<Map<String, Object>> findResponsibleByDocument(
+    public Responsible findResponsibleByDocument(
             @RequestParam Long responsibleDocNumber) throws SQLException {
-
-        Map<String, Object> response = new HashMap<>();
-
-        Responsible responsible = findService.findResponsibleByDocument(responsibleDocNumber);
-
-        if (responsible != null) {
-            response.put("message", "Responsible found successfully!");
-            response.put("Responsible", responsible);
-            return ResponseEntity.ok(response);
-        } else {
-            response.put("message", "Responsible not found");
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
-        }
+        return findService.findResponsibleByDocument(responsibleDocNumber);
     }
 }
