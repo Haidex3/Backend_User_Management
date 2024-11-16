@@ -25,8 +25,6 @@ public interface ResponsibleRepository extends JpaRepository<Responsible, String
      */
     Optional<Responsible> findByDocument(String document);
 
-    Responsible save(Responsible responsible);
-
 }
 
 

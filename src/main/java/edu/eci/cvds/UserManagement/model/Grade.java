@@ -1,8 +1,9 @@
 package edu.eci.cvds.UserManagement.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "grades", schema = "public")
@@ -10,12 +11,22 @@ public class Grade {
 
     @Id
     public String name;
+    @Column(name = "year")
+    private String year;
 
-    public Grade(String name){
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "grade_name")
+    private List<Course> courses = new ArrayList<>();
+
+    public Grade(String name, String year){
         this.name=name;
+        this.year=year;
     }
 
     public Grade() {
+    }
 
+    public void addCourse(Course course){
+        courses.add(course);
     }
 }

@@ -18,6 +18,4 @@ import java.util.Optional;
 @Repository
 public interface StudentRepository extends JpaRepository<Student, String> {
 
-    Student save(Student student);
-
 }

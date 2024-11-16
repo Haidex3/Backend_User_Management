@@ -1,4 +1,5 @@
 package edu.eci.cvds.UserManagement.controller;
+import edu.eci.cvds.UserManagement.model.Course;
 import edu.eci.cvds.UserManagement.model.Responsible;
 import edu.eci.cvds.UserManagement.model.Student;
 import edu.eci.cvds.UserManagement.service.FindService;
@@ -48,13 +49,7 @@ public class MigrationController {
                 String responsibleDocSite = row.getCell(6).getStringCellValue();
                 String responsiblePhone = String.valueOf(row.getCell(7).getNumericCellValue());;
                 String responsibleEmail = row.getCell(8).getStringCellValue();
-                String studentCourse;
-                if (row.getCell(9).getCellType() == CellType.NUMERIC) {
-                    studentCourse = String.valueOf((long) row.getCell(9).getNumericCellValue());
-                } else {
-                    studentCourse = row.getCell(9).getStringCellValue();
-                }
-                String studentGrade = row.getCell(10).getStringCellValue();
+                Course studentCourse=findService.findCourseByName(row.getCell(9).getStringCellValue()) ;
 
                 Optional<Responsible> existingResponsible = Optional.ofNullable(findService.findResponsibleByDocument(responsibleDocNumber));
                 Responsible responsible;

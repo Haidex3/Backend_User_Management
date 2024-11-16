@@ -83,9 +83,4 @@ public class RegisterController {
         }
     }
 
-    @GetMapping("/findResponsibleByDocument")
-    public Responsible findResponsibleByDocument(
-            @RequestParam String responsibleDocNumber) throws SQLException {
-        return findService.findResponsibleByDocument(responsibleDocNumber);
-    }
 }

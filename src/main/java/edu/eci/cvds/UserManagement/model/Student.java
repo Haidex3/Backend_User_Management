@@ -1,9 +1,6 @@
 package edu.eci.cvds.UserManagement.model;
 
-import jakarta.persistence.DiscriminatorValue;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 /**
@@ -17,11 +14,14 @@ public class Student extends User{
     private String name;
     private String document;
     private String documentType;
-    private String course;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "course_name", referencedColumnName = "name", insertable = false, updatable = false)
+    private Course course;
     private String responsibleDocument;
 
 
-    public Student (String id, String name,String document, String documentType, String course, String responsibleDocument){
+    public Student (String id, String name,String document, String documentType, Course course, String responsibleDocument){
         super(id, name, null);
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String encodedPassword = passwordEncoder.encode(String.valueOf(id));
@@ -32,6 +32,7 @@ public class Student extends User{
         this.documentType = documentType;
         this.course = course;
         this.responsibleDocument = responsibleDocument;
+        course.addStudent(this);
     }
 
     public Student() {
@@ -59,21 +60,11 @@ public class Student extends User{
     }
 
     /**
-     * Gets the course of the student.
-     *
-     * @return the course name.
-     */
-    public String getCourse() {
-        return course;
-    }
-
-
-    /**
      * Sets the course of the student.
      *
      * @param course the new course name.
      */
-    public void setCourse(String course) {
+    public void setCourse(Course course) {
         this.course = course;
     }
 
