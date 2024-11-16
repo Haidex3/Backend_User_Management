@@ -2,6 +2,7 @@ package edu.eci.cvds.UserManagement.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 /**
@@ -10,6 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
  */
 
 @Entity
+@Table(name = "students", schema = "public")
 public class Student {
 
     @Id
@@ -22,13 +24,12 @@ public class Student {
     private Long document;
     private String documentType;
     private String course;
-    private String grade;
     private Long responsibleDocument;
 
     protected Student() {
     }
 
-    public Student (Long id, String name,Long document, String documentType, String course, String grade, Long responsibleDocument){
+    public Student (Long id, String name,Long document, String documentType, String course, Long responsibleDocument){
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String encodedPassword = passwordEncoder.encode(String.valueOf(id));
         this.id = id;
@@ -38,7 +39,6 @@ public class Student {
         this.document = document;
         this.documentType = documentType;
         this.course = course;
-        this.grade = grade;
         this.responsibleDocument = responsibleDocument;
     }
 
@@ -52,14 +52,6 @@ public class Student {
 
     public Long getDocument() {
         return document;
-    }
-
-    public void setGrade(String grade) {
-        this.grade = grade;
-    }
-
-    public String getGrade() {
-        return grade;
     }
 
     public String getDocumentType() {

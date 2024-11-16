@@ -49,7 +49,7 @@ public class RegisterController {
     @PostMapping("/registerStudent")
     public ResponseEntity<Map<String, Object>> registerStudent(@RequestBody Student newStudent) {
         Map<String, Object> response = new HashMap<>();
-        Optional<Responsible> studentOptional = registerService.registerStudent(newStudent);
+        Optional<Student> studentOptional = registerService.registerStudent(newStudent);
         if (studentOptional.isPresent()) {
             response.put("message", "Registration of Student successful!");
             response.put("Student", studentOptional.get());

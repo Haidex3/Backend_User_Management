@@ -20,9 +20,10 @@ public class RegisterService {
         this.studentRepository = studentRepository;
     }
 
-    public Optional<Responsible> registerStudent(Student student) {
-        return studentRepository.save(student);
+    public Optional<Student> registerStudent(Student student) {
+        return Optional.of(studentRepository.save(student));
     }
+
 
     public Optional<Responsible> registerResponsible(Responsible responsible) {
         return Optional.ofNullable(responsibleRepository.save(responsible));
