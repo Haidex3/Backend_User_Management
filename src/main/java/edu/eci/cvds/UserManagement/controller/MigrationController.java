@@ -39,14 +39,14 @@ public class MigrationController {
 
             while (rowIterator.hasNext()) {
                 Row row = rowIterator.next();
-                Long studentId = (long) row.getCell(0).getNumericCellValue();
+                String studentId = String.valueOf(row.getCell(0).getNumericCellValue());
                 String studentName = row.getCell(1).getStringCellValue();
-                Long studentDocument = (long) row.getCell(2).getNumericCellValue();
+                String studentDocument = String.valueOf(row.getCell(2).getNumericCellValue());
                 String studentDocumentType = row.getCell(3).getStringCellValue();
                 String responsibleName = row.getCell(4).getStringCellValue();
-                Long responsibleDocNumber = (long) row.getCell(5).getNumericCellValue();
+                String responsibleDocNumber = String.valueOf(row.getCell(5).getNumericCellValue());
                 String responsibleDocSite = row.getCell(6).getStringCellValue();
-                String responsiblePhone = String.valueOf((long) row.getCell(7).getNumericCellValue());;
+                String responsiblePhone = String.valueOf(row.getCell(7).getNumericCellValue());;
                 String responsibleEmail = row.getCell(8).getStringCellValue();
                 String studentCourse;
                 if (row.getCell(9).getCellType() == CellType.NUMERIC) {

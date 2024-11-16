@@ -1,5 +1,6 @@
 package edu.eci.cvds.UserManagement.model;
 
+import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -12,45 +13,40 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Entity
 @Table(name = "students", schema = "public")
-public class Student {
-
-    @Id
-
-    private Long id;
-
+public class Student extends User{
     private String name;
-    private String userName;
-    private String password;
-    private Long document;
+    private String document;
     private String documentType;
     private String course;
-    private Long responsibleDocument;
+    private String responsibleDocument;
 
-    protected Student() {
-    }
 
-    public Student (Long id, String name,Long document, String documentType, String course, Long responsibleDocument){
+    public Student (String id, String name,String document, String documentType, String course, String responsibleDocument){
+        super(id, name, null);
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String encodedPassword = passwordEncoder.encode(String.valueOf(id));
-        this.id = id;
+        setUserName(name);
+        setPassword(encodedPassword);
         this.name=name;
-        this.userName = name;
-        this.password = encodedPassword;
         this.document = document;
         this.documentType = documentType;
         this.course = course;
         this.responsibleDocument = responsibleDocument;
     }
 
-    public String getUserName() {
-        return userName;
+    public Student() {
+        super();
     }
 
-    public Long getResponsibleDocument() {
+    public String getUserName() {
+        return getUserName();
+    }
+
+    public String getResponsibleDocument() {
         return responsibleDocument;
     }
 
-    public Long getDocument() {
+    public String getDocument() {
         return document;
     }
 
@@ -59,22 +55,8 @@ public class Student {
     }
 
     public String getPassword() {
-        return password;
+        return getPassword();
     }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    /**
-     * Gets the unique identifier of the student.
-     *
-     * @return the student ID.
-     */
-    public Long getId() {
-        return id;
-    }
-
 
     /**
      * Gets the course of the student.

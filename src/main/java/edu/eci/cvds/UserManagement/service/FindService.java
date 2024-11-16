@@ -17,7 +17,7 @@ public class FindService {
         this.responsibleRepository = responsibleRepository;
     }
 
-    public Responsible findResponsibleByDocument(Long document) {
+    public Responsible findResponsibleByDocument(String document) {
         Optional<Responsible> optionalResponsible = responsibleRepository.findByDocument(document);
         return optionalResponsible.orElse(null);
     }

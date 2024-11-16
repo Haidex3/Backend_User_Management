@@ -16,7 +16,7 @@ import java.util.Optional;
  * the Student entity, allowing saving of Student records to the database.
  */
 @Repository
-public interface StudentRepository extends JpaRepository<Student, Long> {
+public interface StudentRepository extends JpaRepository<Student, String> {
 
     Student save(Student student);
 

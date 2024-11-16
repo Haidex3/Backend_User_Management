@@ -14,7 +14,7 @@ import java.util.Optional;
  * Responsible by document type and number.
  */
 @Repository
-public interface ResponsibleRepository extends JpaRepository<Responsible, Long> {
+public interface ResponsibleRepository extends JpaRepository<Responsible, String> {
 
 
     /**
@@ -23,7 +23,7 @@ public interface ResponsibleRepository extends JpaRepository<Responsible, Long> 
      * @param document     the document number.
      * @return an Optional containing the Responsible if found, otherwise empty.
      */
-    Optional<Responsible> findByDocument(Long document);
+    Optional<Responsible> findByDocument(String document);
 
     Responsible save(Responsible responsible);
 

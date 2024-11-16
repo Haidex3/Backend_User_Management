@@ -17,7 +17,7 @@ import jakarta.persistence.Table;
 public class Responsible {
 
     @Id
-    private Long document;
+    private String document;
     private String siteDocument;
     private String name;
     private String phoneNumber;
@@ -35,7 +35,7 @@ public class Responsible {
      * @param phoneNumber   the phone number of the responsible person.
      * @param email         the email address of the responsible person.
      */
-    public Responsible(Long document, String siteDocument, String name, String phoneNumber, String email) {
+    public Responsible(String document, String siteDocument, String name, String phoneNumber, String email) {
         this.document = document;
         this.siteDocument = siteDocument;
         this.name = name;
@@ -57,7 +57,7 @@ public class Responsible {
      * @return the identification number.
      */
 
-    public Long getDocument() {
+    public String getDocument() {
         return document;
     }
 
