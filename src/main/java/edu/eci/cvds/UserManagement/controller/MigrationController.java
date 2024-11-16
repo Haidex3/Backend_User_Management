@@ -65,7 +65,7 @@ public class MigrationController {
                     registerService.registerResponsible(responsible);
                 }
 
-                Student student = new Student(studentId, studentName, studentDocument, studentDocumentType, studentCourse, studentGrade, responsibleDocNumber);
+                Student student = new Student(studentId, studentName, studentDocument, studentDocumentType, studentCourse,responsibleDocNumber);
                 registerService.registerStudent(student);
             }
 

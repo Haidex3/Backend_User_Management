@@ -2,6 +2,7 @@ package edu.eci.cvds.UserManagement.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 
 /**
@@ -12,13 +13,14 @@ import jakarta.persistence.Id;
 
 
 @Entity
+@Table(name = "responsibles", schema = "public")
 public class Responsible {
 
     @Id
     private Long document;
-    private String sitedocument;
+    private String siteDocument;
     private String name;
-    private String phonenumber;
+    private String phoneNumber;
     private String email;
 
     protected Responsible() {
@@ -35,9 +37,9 @@ public class Responsible {
      */
     public Responsible(Long document, String siteDocument, String name, String phoneNumber, String email) {
         this.document = document;
-        this.sitedocument = siteDocument;
+        this.siteDocument = siteDocument;
         this.name = name;
-        this.phonenumber = phoneNumber;
+        this.phoneNumber = phoneNumber;
         this.email = email;
     }
 
@@ -47,7 +49,7 @@ public class Responsible {
      * @return the type of document (e.g., ID, passport).
      */
     public String getSiteDocument() {
-        return sitedocument;
+        return siteDocument;
     }
     /**
      * Gets the document number of the responsible person.
@@ -75,7 +77,7 @@ public class Responsible {
      * @return the phone number.
      */
     public String getPhoneNumber() {
-        return phonenumber;
+        return phoneNumber;
     }
 
     /**
