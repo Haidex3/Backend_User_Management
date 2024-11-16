@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.SQLException;
+import java.util.Optional;
 
 @Service
 public class FindService {
@@ -16,12 +17,8 @@ public class FindService {
         this.responsibleRepository = responsibleRepository;
     }
 
-    public Responsible findResponsibleByDocument(Long responsibleDocNumber) {
-        try {
-            return responsibleRepository.findResponsibleByDocument(responsibleDocNumber);
-        } catch (SQLException e) {
-            System.err.println("Error al buscar responsable: " + e.getMessage());
-            return null;
-        }
+    public Responsible findResponsibleByDocument(Long document) {
+        Optional<Responsible> optionalResponsible = responsibleRepository.findByDocument(document);
+        return optionalResponsible.orElse(null);
     }
 }

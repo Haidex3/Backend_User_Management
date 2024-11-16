@@ -1,24 +1,43 @@
 package edu.eci.cvds.UserManagement.model;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+
+
 /**
  * The Responsible class represents a person responsible for a student.
  * This class holds information about the responsible person, such as their name,
  * contact details, and identification information.
  */
 
+
+@Entity
 public class Responsible {
-    private final String name;
-    private final Long document;
-    private final String siteDocument;
-    private final String phoneNumber;
-    private final String email;
 
+    @Id
+    private Long document;
+    private String sitedocument;
+    private String name;
+    private String phonenumber;
+    private String email;
 
+    protected Responsible() {
+    }
 
+    /**
+     * Constructs a new Responsible object with the specified details.
+     *
+     * @param document      the identification number of the responsible person.
+     * @param siteDocument  the site of document.
+     * @param name          the name of the responsible person.
+     * @param phoneNumber   the phone number of the responsible person.
+     * @param email         the email address of the responsible person.
+     */
     public Responsible(Long document, String siteDocument, String name, String phoneNumber, String email) {
-        this.name = name;
         this.document = document;
-        this.siteDocument = siteDocument;
-        this.phoneNumber = phoneNumber;
+        this.sitedocument = siteDocument;
+        this.name = name;
+        this.phonenumber = phoneNumber;
         this.email = email;
     }
 
@@ -28,7 +47,7 @@ public class Responsible {
      * @return the type of document (e.g., ID, passport).
      */
     public String getSiteDocument() {
-        return siteDocument;
+        return sitedocument;
     }
     /**
      * Gets the document number of the responsible person.
@@ -56,7 +75,7 @@ public class Responsible {
      * @return the phone number.
      */
     public String getPhoneNumber() {
-        return phoneNumber;
+        return phonenumber;
     }
 
     /**

@@ -2,12 +2,16 @@ package edu.eci.cvds.UserManagement;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 /**
  * UserManagementApplication is the main entry point for the User Management
  * application. It bootstraps the application using Spring Boot's autoconfiguration.
  */
 @SpringBootApplication
+@EnableJpaRepositories("edu.eci.cvds.UserManagement.repositories")
+@EntityScan("edu.eci.cvds.UserManagement.model")
 public class UserManagementApplication {
 
 	/**
