@@ -24,7 +24,6 @@ public class RegisterService {
         return Optional.of(studentRepository.save(student));
     }
 
-
     public Optional<Responsible> registerResponsible(Responsible responsible) {
         return Optional.ofNullable(responsibleRepository.save(responsible));
     }
