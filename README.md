@@ -40,7 +40,8 @@ representar a varios estudiantes siempre y cuando estos tengan un parentezco.
 Se diseña la base de datos `usermanagement` con los siguientes detalles:
 
 
-![image](https://github.com/user-attachments/assets/235639cd-edcc-427c-97e2-9126157ab2b2)
+![image](https://github.com/user-attachments/assets/dcacd7ed-9386-4b19-a537-7575b1bbde72)
+
 
 
 
@@ -54,64 +55,85 @@ Tenienedo en cuenta las siguientes especificaciones:
 - Creación de las tablas
 
 ```sh
+CREATE TABLE Courses (
+    id INTEGER,
+    name VARCHAR(50)
+);
+
 CREATE TABLE Responsibles (
-    id BIGINT PRIMARY KEY, 
-    identification_type VARCHAR(50) NOT NULL,
-    name VARCHAR(100) NOT NULL,
-    phone_number VARCHAR(20),
+    id VARCHAR(50),
+    identification_type VARCHAR(20),
+    name VARCHAR(100),
+    phoneNumber VARCHAR(20),
     email VARCHAR(100),
-    address VARCHAR(255)
+    address VARCHAR(100)
+);
+
+CREATE TABLE Administrators (
+    id BIGINT,
+    userName VARCHAR(50),
+    password VARCHAR(50)
 );
 
 
 CREATE TABLE Students (
-    id BIGSERIAL PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
-    course VARCHAR(50),
-    academic_year INT,
-    relation_with_responsible VARCHAR(50),
-    id_responsible BIGINT
-);
-
-
-CREATE TABLE Administrators (
-    id BIGSERIAL PRIMARY KEY,
-    user_name VARCHAR(50) UNIQUE NOT NULL,
-    password VARCHAR(255) NOT NULL
+    code VARCHAR(50),
+    identification_type VARCHAR(20),
+    identification_number VARCHAR(50),
+    userName VARCHAR(50),
+    password VARCHAR(50),
+    name VARCHAR(100),
+    academicYear INTEGER,
+    relationWithResponsible VARCHAR(50),
+    idResponsible VARCHAR(50),
+    course INTEGER
 );
 ```
-
-- Consideraciones para la autenticación de estudiantes
-
-```sh
-ALTER TABLE Students 
-ADD COLUMN userName VARCHAR(50) NOT NULL;
-
-ALTER TABLE Students 
-ADD COLUMN password VARCHAR(100) NOT NULL;
-```
-
 
 - Restricciones
 
 ```sh
+ALTER TABLE Courses
+ADD CONSTRAINT pk_courses PRIMARY KEY (id);
+
+ALTER TABLE Responsibles
+ADD CONSTRAINT pk_responsibles PRIMARY KEY (id);
+
+ALTER TABLE Administrators
+ADD CONSTRAINT pk_administrators PRIMARY KEY (id);
+
 ALTER TABLE Students
-ADD CONSTRAINT fk_responsible
-FOREIGN KEY (id_responsible) REFERENCES Responsibles(id);
+ADD CONSTRAINT pk_students PRIMARY KEY (code);
+
+ALTER TABLE Students
+ADD CONSTRAINT uk_students_identification UNIQUE (identification_type, identification_number);
+
+ALTER TABLE Students
+ADD CONSTRAINT fk_students_responsible FOREIGN KEY (idResponsible)
+REFERENCES Responsibles(id);
+
+ALTER TABLE Students
+ADD CONSTRAINT fk_students_course FOREIGN KEY (course)
+REFERENCES Courses(id);
 ```
 
 - Usuario de conexión
 
 ```sh
-CREATE USER libraryDirector WITH PASSWORD 'userManagement2024';
+CREATE USER librarydirector WITH PASSWORD 'userManagement2024';
 ```
 
 - Permisos para el usuario
 
 ```sh
-GRANT INSERT, UPDATE, DELETE ON TABLE responsibles TO libraryDirector;
-GRANT INSERT, UPDATE, DELETE ON TABLE administrators TO libraryDirector;
-GRANT INSERT, UPDATE, DELETE ON TABLE students TO libraryDirector;
+GRANT INSERT, UPDATE, DELETE ON TABLE responsibles TO librarydirector;
+GRANT INSERT, UPDATE, DELETE ON TABLE administrators TO librarydirector;
+GRANT INSERT, UPDATE, DELETE ON TABLE students TO librarydirector;
 ```
+
+## GIT FLOW
+
+![image](https://github.com/user-attachments/assets/3d7357e6-4f33-4de2-a604-328218f742f4)
+
 
 
