@@ -4,6 +4,8 @@ import edu.eci.cvds.UserManagement.model.Course;
 import edu.eci.cvds.UserManagement.model.Grade;
 import edu.eci.cvds.UserManagement.model.Responsible;
 import edu.eci.cvds.UserManagement.service.FindService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -26,9 +28,19 @@ public class FindController {
     }
 
     @GetMapping("/findGradeByName")
-    public Grade findGradeByName(String name){
-        return findService.findGradeByName(name);
+    public ResponseEntity<?> findGradeByName(@RequestParam("name") String name) {
+        if (name == null || name.isEmpty()) {
+            return ResponseEntity.badRequest().body("El nombre del grado es requerido.");
+        }
+
+        Grade grade = findService.findGradeByName(name);
+        if (grade == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Grado no encontrado.");
+        }
+
+        return ResponseEntity.ok(grade); // Devuelve el grado en formato JSON
     }
+
 
     @GetMapping("/findResponsibleByDocument")
     public Responsible findResponsibleByDocument(

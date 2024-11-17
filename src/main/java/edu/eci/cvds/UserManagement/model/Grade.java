@@ -11,8 +11,9 @@ public class Grade {
 
     @Id
     public String name;
+    /*
     @Column(name = "year")
-    private String year;
+    private String year;*/
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "grade_name")
@@ -20,7 +21,7 @@ public class Grade {
 
     public Grade(String name, String year){
         this.name=name;
-        this.year=year;
+        //this.year=year;
     }
 
     public Grade() {
