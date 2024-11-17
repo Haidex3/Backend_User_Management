@@ -32,13 +32,12 @@ public class FindController {
         if (name == null || name.isEmpty()) {
             return ResponseEntity.badRequest().body("El nombre del grado es requerido.");
         }
-
         Grade grade = findService.findGradeByName(name);
         if (grade == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Grado no encontrado.");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Grado no encontrado :c.");
         }
 
-        return ResponseEntity.ok(grade); // Devuelve el grado en formato JSON
+        return ResponseEntity.ok(grade);
     }
 
 

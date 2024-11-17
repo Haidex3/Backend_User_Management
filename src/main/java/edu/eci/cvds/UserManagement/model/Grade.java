@@ -16,11 +16,12 @@ public class Grade {
     private String year;*/
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "grade_name")
+    @JoinColumn(name = "name")
     private List<Course> courses = new ArrayList<>();
 
     public Grade(String name, String year){
         this.name=name;
+        this.courses = new ArrayList<>();
         //this.year=year;
     }
 
