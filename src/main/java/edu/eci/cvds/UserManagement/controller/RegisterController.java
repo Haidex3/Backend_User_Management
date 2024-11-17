@@ -1,5 +1,6 @@
 package edu.eci.cvds.UserManagement.controller;
 
+import edu.eci.cvds.UserManagement.model.Course;
 import edu.eci.cvds.UserManagement.service.FindService;
 import edu.eci.cvds.UserManagement.service.RegisterService;
 import edu.eci.cvds.UserManagement.model.Responsible;
@@ -82,5 +83,17 @@ public class RegisterController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
+
+    @PostMapping("/createCourse")
+    public ResponseEntity<?> createCourse(@RequestBody Course newCourse) {
+        try {
+            Course course = registerService.createCourse(newCourse);
+            return ResponseEntity.ok(course);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+
 
 }

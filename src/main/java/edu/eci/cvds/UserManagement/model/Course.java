@@ -18,9 +18,9 @@ public class Course {
     private Grade grade;
 
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "course_name")
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Student> students = new ArrayList<>();
+
 
     public Course(String name, Grade grade) {
         this.name = name;

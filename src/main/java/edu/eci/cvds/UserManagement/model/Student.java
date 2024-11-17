@@ -16,8 +16,10 @@ public class Student extends User{
     private String documentType;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "course_name", referencedColumnName = "name", insertable = false, updatable = false)
+    @JoinColumn(name = "course_name", referencedColumnName = "name", nullable = true)
     private Course course;
+
+    @Column(name = "responsible_document")
     private String responsibleDocument;
 
 

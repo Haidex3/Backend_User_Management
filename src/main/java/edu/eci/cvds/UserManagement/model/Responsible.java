@@ -1,5 +1,6 @@
 package edu.eci.cvds.UserManagement.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -17,10 +18,17 @@ import jakarta.persistence.Table;
 public class Responsible {
 
     @Id
+    @Column(name = "document")
     private String document;
+
+    @Column(name = "site_document")
     private String siteDocument;
+    @Column(name = "name")
     private String name;
+
+    @Column(name = "phone_number")
     private String phoneNumber;
+    @Column(name = "email")
     private String email;
 
     protected Responsible() {

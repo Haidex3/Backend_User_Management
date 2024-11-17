@@ -1,5 +1,6 @@
 package edu.eci.cvds.UserManagement.service;
 
+import edu.eci.cvds.UserManagement.model.Course;
 import edu.eci.cvds.UserManagement.model.Responsible;
 import edu.eci.cvds.UserManagement.model.Student;
 import edu.eci.cvds.UserManagement.repositories.AdministratorRepository;
@@ -33,6 +34,10 @@ public class RegisterService {
 
     public Optional<Responsible> registerResponsible(Responsible responsible) {
         return Optional.ofNullable(responsibleRepository.save(responsible));
+    }
+
+    public Course createCourse(Course course){
+        return (Course) courseRepository.save(course);
     }
 
 }
