@@ -33,6 +33,7 @@ public class Student extends User{
         this.documentType = documentType;
         this.courseName = courseName;
         this.responsibleDocument = responsibleDocument;
+        setRole("student");
     }
 
     public Student() {

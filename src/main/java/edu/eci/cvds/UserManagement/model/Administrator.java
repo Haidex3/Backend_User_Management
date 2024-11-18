@@ -14,10 +14,13 @@ public class Administrator extends User {
     @Column(name = "name", nullable = false)
     private String name;
 
+
+
     public Administrator(String id, String userName, String password, String email, String name) {
         super(id, userName, password);
         this.email = email;
         this.name = name;
+        setRole("administrator");
     }
 
     public Administrator() {
