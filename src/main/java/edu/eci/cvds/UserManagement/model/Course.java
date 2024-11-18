@@ -13,29 +13,24 @@ public class Course {
     @Id
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "grade_name", referencedColumnName = "name", insertable = false, updatable = false)
-    private Grade grade;
+    @Column(name = "grade_name")
+    private String gradeName;
 
 
-    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Student> students = new ArrayList<>();
-
-
-    public Course(String name, Grade grade) {
+    public Course(String name, String gradeName) {
         this.name = name;
-        this.grade=grade;
-        grade.addCourse(this);
+        this.gradeName=gradeName;
     }
 
     public Course() {
+    }
+
+    public String getGradeName() {
+        return gradeName;
     }
 
     public String getName() {
         return name;
     }
 
-    public void addStudent(Student student){
-        students.add(student);
-    }
 }

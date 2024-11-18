@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.sql.SQLException;
+import java.util.List;
 
 @RestController
 @RequestMapping
@@ -45,6 +46,12 @@ public class FindController {
     public Responsible findResponsibleByDocument(
             @RequestParam String responsibleDocNumber) throws SQLException {
         return findService.findResponsibleByDocument(responsibleDocNumber);
+    }
+
+    @GetMapping("/findCoursesByGrade")
+    public List findCoursesByGrade(
+            @RequestParam String gradeName){
+        return findService.findCoursesByGradeName(gradeName);
     }
 
 }

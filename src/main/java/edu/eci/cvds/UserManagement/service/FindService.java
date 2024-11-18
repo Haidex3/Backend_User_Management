@@ -9,6 +9,7 @@ import edu.eci.cvds.UserManagement.repositories.ResponsibleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -36,5 +37,9 @@ public class FindService {
 
     public Course findCourseByName(String name){
         return courseRepository.findByName(name);
+    }
+
+    public List findCoursesByGradeName(String gradeName){
+        return courseRepository.findByGradeName(gradeName);
     }
 }

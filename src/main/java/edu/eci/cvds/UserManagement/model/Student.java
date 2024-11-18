@@ -15,15 +15,14 @@ public class Student extends User{
     private String document;
     private String documentType;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "course_name", referencedColumnName = "name", nullable = true)
-    private Course course;
+    @Column(name = "course_name")
+    private String courseName;
 
     @Column(name = "responsible_document")
     private String responsibleDocument;
 
 
-    public Student (String id, String name,String document, String documentType, Course course, String responsibleDocument){
+    public Student (String id, String name,String document, String documentType, String courseName, String responsibleDocument){
         super(id, name, null);
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String encodedPassword = passwordEncoder.encode(String.valueOf(id));
@@ -32,9 +31,8 @@ public class Student extends User{
         this.name=name;
         this.document = document;
         this.documentType = documentType;
-        this.course = course;
+        this.courseName = courseName;
         this.responsibleDocument = responsibleDocument;
-        course.addStudent(this);
     }
 
     public Student() {
@@ -64,10 +62,10 @@ public class Student extends User{
     /**
      * Sets the course of the student.
      *
-     * @param course the new course name.
+     * @param courseName the new course name.
      */
-    public void setCourse(Course course) {
-        this.course = course;
+    public void setCourse(String courseName) {
+        this.courseName = courseName;
     }
 
     /**

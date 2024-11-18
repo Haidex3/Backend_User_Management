@@ -49,7 +49,7 @@ public class MigrationController {
                 String responsibleDocSite = row.getCell(6).getStringCellValue();
                 String responsiblePhone = String.valueOf(row.getCell(7).getNumericCellValue());;
                 String responsibleEmail = row.getCell(8).getStringCellValue();
-                Course studentCourse=findService.findCourseByName(row.getCell(9).getStringCellValue()) ;
+                String studentCourse = row.getCell(9).getStringCellValue();
 
                 Optional<Responsible> existingResponsible = Optional.ofNullable(findService.findResponsibleByDocument(responsibleDocNumber));
                 Responsible responsible;

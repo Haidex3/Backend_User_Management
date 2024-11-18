@@ -27,7 +27,6 @@ import java.util.Optional;
 @RequestMapping
 public class RegisterController {
     private final RegisterService registerService;
-    private final FindService findService;
 
     /**
      * Constructor to initialize the RegisterController with the required RegisterService dependency.
@@ -36,7 +35,6 @@ public class RegisterController {
      */
     public RegisterController(RegisterService registerService, FindService newFindService) {
         this.registerService = registerService;
-        this.findService = newFindService;
     }
 
     /**
@@ -93,7 +91,5 @@ public class RegisterController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
-
-
 
 }
