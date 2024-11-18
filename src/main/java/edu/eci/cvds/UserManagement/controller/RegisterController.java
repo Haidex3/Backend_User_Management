@@ -1,5 +1,6 @@
 package edu.eci.cvds.UserManagement.controller;
 
+import edu.eci.cvds.UserManagement.model.Course;
 import edu.eci.cvds.UserManagement.service.FindService;
 import edu.eci.cvds.UserManagement.service.RegisterService;
 import edu.eci.cvds.UserManagement.model.Responsible;
@@ -26,7 +27,6 @@ import java.util.Optional;
 @RequestMapping
 public class RegisterController {
     private final RegisterService registerService;
-    private final FindService findService;
 
     /**
      * Constructor to initialize the RegisterController with the required RegisterService dependency.
@@ -35,7 +35,6 @@ public class RegisterController {
      */
     public RegisterController(RegisterService registerService, FindService newFindService) {
         this.registerService = registerService;
-        this.findService = newFindService;
     }
 
     /**
@@ -83,9 +82,14 @@ public class RegisterController {
         }
     }
 
-    @GetMapping("/findResponsibleByDocument")
-    public Responsible findResponsibleByDocument(
-            @RequestParam Long responsibleDocNumber) throws SQLException {
-        return findService.findResponsibleByDocument(responsibleDocNumber);
+    @PostMapping("/createCourse")
+    public ResponseEntity<?> createCourse(@RequestBody Course newCourse) {
+        try {
+            Course course = registerService.createCourse(newCourse);
+            return ResponseEntity.ok(course);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
+
 }

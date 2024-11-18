@@ -1,8 +1,6 @@
 package edu.eci.cvds.UserManagement.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 /**
@@ -12,45 +10,45 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Entity
 @Table(name = "students", schema = "public")
-public class Student {
-
-    @Id
-
-    private Long id;
-
+public class Student extends User{
     private String name;
-    private String userName;
-    private String password;
-    private Long document;
+    private String document;
     private String documentType;
-    private String course;
-    private Long responsibleDocument;
 
-    protected Student() {
-    }
+    @Column(name = "course_name")
+    private String courseName;
 
-    public Student (Long id, String name,Long document, String documentType, String course, Long responsibleDocument){
+    @Column(name = "responsible_document")
+    private String responsibleDocument;
+
+
+    public Student (String id, String name,String document, String documentType, String courseName, String responsibleDocument){
+        super(id, name, null);
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String encodedPassword = passwordEncoder.encode(String.valueOf(id));
-        this.id = id;
+        setUserName(name);
+        setPassword(encodedPassword);
         this.name=name;
-        this.userName = name;
-        this.password = encodedPassword;
         this.document = document;
         this.documentType = documentType;
-        this.course = course;
+        this.courseName = courseName;
         this.responsibleDocument = responsibleDocument;
+        setRole("student");
+    }
+
+    public Student() {
+        super();
     }
 
     public String getUserName() {
-        return userName;
+        return getUserName();
     }
 
-    public Long getResponsibleDocument() {
+    public String getResponsibleDocument() {
         return responsibleDocument;
     }
 
-    public Long getDocument() {
+    public String getDocument() {
         return document;
     }
 
@@ -59,40 +57,16 @@ public class Student {
     }
 
     public String getPassword() {
-        return password;
+        return getPassword();
     }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    /**
-     * Gets the unique identifier of the student.
-     *
-     * @return the student ID.
-     */
-    public Long getId() {
-        return id;
-    }
-
-
-    /**
-     * Gets the course of the student.
-     *
-     * @return the course name.
-     */
-    public String getCourse() {
-        return course;
-    }
-
 
     /**
      * Sets the course of the student.
      *
-     * @param course the new course name.
+     * @param courseName the new course name.
      */
-    public void setCourse(String course) {
-        this.course = course;
+    public void setCourse(String courseName) {
+        this.courseName = courseName;
     }
 
     /**
