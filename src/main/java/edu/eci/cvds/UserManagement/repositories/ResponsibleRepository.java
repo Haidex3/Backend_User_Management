@@ -36,6 +36,13 @@ public interface ResponsibleRepository extends JpaRepository<Responsible, String
      */
     Page<Responsible> findAll(Pageable pageable);
 
+    /**
+     * Deletes a Responsible by document.
+     *
+     * @param document the document number of the Responsible to delete.
+     */
+    void deleteByDocument(String document);
+
 }
 
 
