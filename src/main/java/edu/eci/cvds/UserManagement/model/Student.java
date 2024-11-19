@@ -11,8 +11,12 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @Entity
 @Table(name = "students", schema = "public")
 public class Student extends User{
+    @Id
+    @Column(name = "id", nullable = false)
+    private String id;
     private String name;
     private String document;
+    @Column(name = "document_type")
     private String documentType;
 
     @Column(name = "course_name")
@@ -21,9 +25,8 @@ public class Student extends User{
     @Column(name = "responsible_document")
     private String responsibleDocument;
 
-
     public Student (String id, String name,String document, String documentType, String courseName, String responsibleDocument){
-        super(id, name, null);
+        this.id=id;
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         String encodedPassword = passwordEncoder.encode(String.valueOf(id));
         setUserName(name);
@@ -41,7 +44,8 @@ public class Student extends User{
     }
 
     public String getUserName() {
-        return getUserName();
+
+        return super.getUserName();
     }
 
     public String getResponsibleDocument() {
@@ -57,7 +61,7 @@ public class Student extends User{
     }
 
     public String getPassword() {
-        return getPassword();
+        return super.getPassword();
     }
 
     /**
@@ -78,4 +82,11 @@ public class Student extends User{
         return name;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public String getCourseName() {
+        return courseName;
+    }
 }
