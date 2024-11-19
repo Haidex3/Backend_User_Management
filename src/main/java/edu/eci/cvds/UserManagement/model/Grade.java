@@ -11,13 +11,13 @@ public class Grade {
 
     @Id
     public String name;
-    /*
-    @Column(name = "year")
-    private String year;*/
+    @Column
+    private String description;
 
 
-    public Grade(String name, String year){
+    public Grade(String name, String description){
         this.name=name;
+        this.description=description;
 
     }
 

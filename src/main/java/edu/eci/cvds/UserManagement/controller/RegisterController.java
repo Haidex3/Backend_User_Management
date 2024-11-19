@@ -42,13 +42,21 @@ public class RegisterController {
      * This method accepts a `Student` object in the request body, attempts to register the student using the
      * RegisterService, and returns a response with a success or failure message.
      *
-     * @param newStudent the student to be registered.
+     * @param studentData the student to be registered.
      * @return a ResponseEntity containing the result of the registration attempt.
      */
     @PostMapping("/registerStudent")
-    public ResponseEntity<Map<String, Object>> registerStudent(@RequestBody Student newStudent) {
+    public ResponseEntity<Map<String, Object>> registerStudent(@RequestBody Student studentData) {
+        Student student = new Student(
+                studentData.getId(),
+                studentData.getName(),
+                studentData.getDocument(),
+                studentData.getDocumentType(),
+                studentData.getCourseName(),
+                studentData.getResponsibleDocument()
+        );
         Map<String, Object> response = new HashMap<>();
-        Optional<Student> studentOptional = registerService.registerStudent(newStudent);
+        Optional<Student> studentOptional = registerService.registerStudent(student);
         if (studentOptional.isPresent()) {
             response.put("message", "Registration of Student successful!");
             response.put("Student", studentOptional.get());

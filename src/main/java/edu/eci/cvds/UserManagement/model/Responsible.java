@@ -26,8 +26,13 @@ public class Responsible {
     @Column(name = "name")
     private String name;
 
+
+
     @Column(name = "phone_number")
     private String phoneNumber;
+
+
+
     @Column(name = "email")
     private String email;
 
@@ -95,6 +100,25 @@ public class Responsible {
      */
     public String getEmail() {
         return email;
+    }
+
+
+    /**
+     * Set email.
+     *
+     * @param email the email of economic responsible
+     */
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    /**
+     * Set phone nomber
+     *
+     * @param phoneNumber Of economic responsible
+     */
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
 }
