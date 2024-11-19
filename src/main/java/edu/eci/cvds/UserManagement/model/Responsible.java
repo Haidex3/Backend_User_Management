@@ -1,5 +1,6 @@
 package edu.eci.cvds.UserManagement.model;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -17,10 +18,22 @@ import jakarta.persistence.Table;
 public class Responsible {
 
     @Id
-    private Long document;
+    @Column(name = "document")
+    private String document;
+
+    @Column(name = "site_document")
     private String siteDocument;
+    @Column(name = "name")
     private String name;
+
+
+
+    @Column(name = "phone_number")
     private String phoneNumber;
+
+
+
+    @Column(name = "email")
     private String email;
 
     protected Responsible() {
@@ -35,7 +48,7 @@ public class Responsible {
      * @param phoneNumber   the phone number of the responsible person.
      * @param email         the email address of the responsible person.
      */
-    public Responsible(Long document, String siteDocument, String name, String phoneNumber, String email) {
+    public Responsible(String document, String siteDocument, String name, String phoneNumber, String email) {
         this.document = document;
         this.siteDocument = siteDocument;
         this.name = name;
@@ -57,7 +70,7 @@ public class Responsible {
      * @return the identification number.
      */
 
-    public Long getDocument() {
+    public String getDocument() {
         return document;
     }
 
@@ -87,6 +100,25 @@ public class Responsible {
      */
     public String getEmail() {
         return email;
+    }
+
+
+    /**
+     * Set email.
+     *
+     * @param email the email of economic responsible
+     */
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    /**
+     * Set phone nomber
+     *
+     * @param phoneNumber Of economic responsible
+     */
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
 }

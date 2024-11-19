@@ -1,5 +1,6 @@
 package edu.eci.cvds.UserManagement.controller;
 
+import edu.eci.cvds.UserManagement.model.Course;
 import edu.eci.cvds.UserManagement.service.FindService;
 import edu.eci.cvds.UserManagement.service.RegisterService;
 import edu.eci.cvds.UserManagement.model.Responsible;
@@ -26,7 +27,6 @@ import java.util.Optional;
 @RequestMapping
 public class RegisterController {
     private final RegisterService registerService;
-    private final FindService findService;
 
     /**
      * Constructor to initialize the RegisterController with the required RegisterService dependency.
@@ -35,7 +35,6 @@ public class RegisterController {
      */
     public RegisterController(RegisterService registerService, FindService newFindService) {
         this.registerService = registerService;
-        this.findService = newFindService;
     }
 
     /**
@@ -43,13 +42,21 @@ public class RegisterController {
      * This method accepts a `Student` object in the request body, attempts to register the student using the
      * RegisterService, and returns a response with a success or failure message.
      *
-     * @param newStudent the student to be registered.
+     * @param studentData the student to be registered.
      * @return a ResponseEntity containing the result of the registration attempt.
      */
     @PostMapping("/registerStudent")
-    public ResponseEntity<Map<String, Object>> registerStudent(@RequestBody Student newStudent) {
+    public ResponseEntity<Map<String, Object>> registerStudent(@RequestBody Student studentData) {
+        Student student = new Student(
+                studentData.getId(),
+                studentData.getName(),
+                studentData.getDocument(),
+                studentData.getDocumentType(),
+                studentData.getCourseName(),
+                studentData.getResponsibleDocument()
+        );
         Map<String, Object> response = new HashMap<>();
-        Optional<Student> studentOptional = registerService.registerStudent(newStudent);
+        Optional<Student> studentOptional = registerService.registerStudent(student);
         if (studentOptional.isPresent()) {
             response.put("message", "Registration of Student successful!");
             response.put("Student", studentOptional.get());
@@ -83,21 +90,14 @@ public class RegisterController {
         }
     }
 
-    @GetMapping("/findResponsibleByDocument")
-    public ResponseEntity<Map<String, Object>> findResponsibleByDocument(
-            @RequestParam Long responsibleDocNumber) throws SQLException {
-
-        Map<String, Object> response = new HashMap<>();
-
-        Responsible responsible = findService.findResponsibleByDocument(responsibleDocNumber);
-
-        if (responsible != null) {
-            response.put("message", "Responsible found successfully!");
-            response.put("Responsible", responsible);
-            return ResponseEntity.ok(response);
-        } else {
-            response.put("message", "Responsible not found");
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+    @PostMapping("/createCourse")
+    public ResponseEntity<?> createCourse(@RequestBody Course newCourse) {
+        try {
+            Course course = registerService.createCourse(newCourse);
+            return ResponseEntity.ok(course);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
 }
