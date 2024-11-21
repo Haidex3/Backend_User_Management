@@ -6,10 +6,7 @@ import edu.eci.cvds.UserManagement.model.Responsible;
 import edu.eci.cvds.UserManagement.service.FindService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -39,6 +36,18 @@ public class FindController {
         }
 
         return ResponseEntity.ok(grade);
+    }
+
+    /**
+     * Endpoint to obtain the courses associated with a degree.
+     *
+     * @param gradeName The name of the grade.
+     * @return List of course names.
+     */
+    @GetMapping("/{gradeName}/courses")
+    public List<String> getCoursesByGrade(@PathVariable String gradeName) {
+        List<Course> courses = findService.findCoursesByGradeName(gradeName);
+        return courses.stream().map(Course::getName).toList();
     }
 
 
