@@ -116,6 +116,9 @@
 						<configuration>
 							<excludes>
 								<exclude>/configurators/</exclude>
+								<exclude>edu/eci/cvds/UserManagement/controller/**</exclude>
+								<exclude>edu/eci/cvds/UserManagement/config/**</exclude>
+								<exclude>edu/eci/cvds/UserManagement/repositories/connection/**</exclude>
 							</excludes>
 						</configuration>
 					</execution>

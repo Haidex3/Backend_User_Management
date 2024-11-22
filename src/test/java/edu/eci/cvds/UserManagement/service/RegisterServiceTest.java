@@ -1,22 +1,23 @@
 package edu.eci.cvds.UserManagement.service;
 
+import edu.eci.cvds.UserManagement.model.Course;
 import edu.eci.cvds.UserManagement.model.Responsible;
 import edu.eci.cvds.UserManagement.model.Student;
 import edu.eci.cvds.UserManagement.repositories.ResponsibleRepository;
 import edu.eci.cvds.UserManagement.repositories.StudentRepository;
+import edu.eci.cvds.UserManagement.repositories.UserRepository;
+import edu.eci.cvds.UserManagement.repositories.CourseRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.sql.SQLException;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class RegisterServiceTest {
 
@@ -26,6 +27,12 @@ public class RegisterServiceTest {
     @Mock
     private StudentRepository studentRepository;
 
+    @Mock
+    private UserRepository userRepository;
+
+    @Mock
+    private CourseRepository courseRepository;
+
     @InjectMocks
     private RegisterService registerService;
 
@@ -33,69 +40,77 @@ public class RegisterServiceTest {
     public void setUp() {
         MockitoAnnotations.openMocks(this);
     }
-/*
-    @Test
-    public void testRegisterStudentSuccess() throws SQLException {
-        Student student = new Student("1", "John Doe", "Computer Science", 2023, null, "Father");
 
-        Optional<Student> result = registerService.registerStudent(student);
-
-        assertTrue(result.isPresent());
-        assertEquals(student, result.get());
-    }
 
     @Test
     public void testRegisterStudentFailure() {
-        Student student = new Student("1", "John Doe", "Computer Science", 2023, null, "Father");
+        Student student = new Student("15667", "John Doe", "56786754", "fdgh", null, "Father");
+        when(userRepository.save(any())).thenThrow(new RuntimeException("Error saving user"));
 
+        try {
+            registerService.registerStudent(student);
+            fail("Expected an exception to be thrown, but it wasn't.");
+        } catch (RuntimeException e) {
+            assertEquals("Error saving user", e.getMessage());
+        }
+    }
+
+
+    @Test
+    public void testRegisterStudentSuccess() {
+        Student student = new Student("15667", "John Doe", "56786754", "fdgh", null, "Father");
+        when(userRepository.save(any())).thenReturn(student);
+        when(studentRepository.save(any())).thenReturn(student);
         Optional<Student> result = registerService.registerStudent(student);
-
-        //assertTrue(result.isEmpty());
+        assertTrue(result.isPresent());
+        assertEquals(student, result.get());
+        verify(userRepository, times(1)).save(any());
+        verify(studentRepository, times(1)).save(any());
     }
 
-    @Test
-    public void testRegisterResponsibleSuccess() throws SQLException {
-        Responsible responsible = new Responsible(123456L, "ID", "Jane Doe", "555-1234", "jane.doe@example.com", "123 Main St");
-        // Call the method
-        Optional<Responsible> result = registerService.registerResponsible(responsible);
 
+
+    @Test
+    public void testRegisterResponsibleSuccess() {
+        Responsible responsible = new Responsible("12345", "ID", "Jane Doe", "555-1234", "jane.doe@example.com");
+        when(responsibleRepository.save(any())).thenReturn(responsible);
+        Optional<Responsible> result = registerService.registerResponsible(responsible);
         assertTrue(result.isPresent());
         assertEquals(responsible, result.get());
+        verify(responsibleRepository, times(1)).save(any());
     }
 
     @Test
-    public void testRegisterResponsibleFailure() throws SQLException {
-        Responsible responsible = new Responsible(123456L, "ID", "Jane Doe", "555-1234", "jane.doe@example.com", "123 Main St");
-
-        doThrow(new RuntimeException("Error saving responsible")).when(responsibleRepository).saveResponsible(any(Responsible.class));
-
-        Optional<Responsible> result = registerService.registerResponsible(responsible);
-
-        assertTrue(result.isEmpty());
+    public void testRegisterResponsibleFailure() {
+        Responsible responsible = new Responsible("12345", "ID", "Jane Doe", "555-1234", "jane.doe@example.com");
+        when(responsibleRepository.save(any())).thenThrow(new RuntimeException("Error saving responsible"));
+        RuntimeException exception = assertThrows(RuntimeException.class, () -> {
+            registerService.registerResponsible(responsible);
+        });
+        assertEquals("Error saving responsible", exception.getMessage());
+        verify(responsibleRepository, times(1)).save(any());
     }
 
     @Test
-    public void testFindResponsibleByDocumentSuccess() throws SQLException {
-        // Create a mock Responsible object
-        Responsible responsible = new Responsible(123456L, "ID", "Jane Doe", "555-1234", "jane.doe@example.com", "123 Main St");
-        Long docNumber = 123456L;
-
-        when(responsibleRepository.findResponsibleByDocument(docNumber)).thenReturn(responsible);
-
-        Optional<Responsible> result = registerService.findResponsibleByDocument(docNumber);
-
-        assertTrue(result.isPresent());
-        assertEquals(responsible, result.get());
+    public void testCreateCourseSuccess() {
+        Course course = new Course("703");
+        when(courseRepository.save(any())).thenReturn(course);
+        Course result = registerService.createCourse(course);
+        assertNotNull(result);
+        assertEquals(course, result);
+        verify(courseRepository, times(1)).save(any());
     }
 
     @Test
-    public void testFindResponsibleByDocumentNotFound() throws SQLException {
-        Long docNumber = 123456L;
+    public void testCreateCourseFailure() {
+        Course course = new Course( "1003");
+        when(courseRepository.save(any())).thenThrow(new RuntimeException("Error creating course"));
+        RuntimeException exception = assertThrows(RuntimeException.class, () -> {
+            registerService.createCourse(course);
+        });
+        assertEquals("Error creating course", exception.getMessage());
+        verify(courseRepository, times(1)).save(any());
+    }
 
-        when(responsibleRepository.findResponsibleByDocument(docNumber)).thenReturn(null);
 
-        Optional<Responsible> result = registerService.findResponsibleByDocument(docNumber);
-
-        assertTrue(result.isEmpty());
-    }*/
 }
