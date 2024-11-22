@@ -44,7 +44,6 @@ public class UserController {
         return ResponseEntity.ok(totalStudents);
     }
 
-
     /**
      * Endpoint to update the course of a student.
      *
@@ -59,7 +58,6 @@ public class UserController {
         userService.updateStudentCourse(studentId, course);
         return ResponseEntity.noContent().build();
     }
-
 
     /**
      * Endpoint to update the contact information of a responsible.
@@ -77,7 +75,6 @@ public class UserController {
         userService.updateResponsibleContactInfo(docNumber, email, phoneNumber);
         return ResponseEntity.noContent().build();
     }
-
 
     /**
      * Retrieves a paginated list of all responsibles.
