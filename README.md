@@ -154,6 +154,12 @@ Desde IntelliJ se realiza la instación a través de la ruta:
 
 Es una herramienta poderosa de análisis estático de código que ayuda a identificar problemas relacionados con la calidad, seguridad y mantenibilidad del software. Proporciona métricas detalladas, como cobertura de pruebas, deuda técnica y vulnerabilidades, permitiendo a los desarrolladores mejorar continuamente su código.
 
+Se siguen las siguientes especificaciones:
+- Se descarga la imagen de docker con el siguiente comando ```docker pull sonarqube``` 
+- Se arranca el servicio de SonarQube con el siguiente comando ```docker run -d --name sonarqube -e SONAR_ES_BOOTSTRAP_CHECKS_DISABLE=true -p 9000:9000 sonarqube:latest```
+- Se valida funcionamiento ```docker ps -a```
+- Se inicia sesión en sonar ```localhost:9000``` cambiando la clave por defecto ( usuario y contraseña admin ). 
+
 ![image](https://github.com/user-attachments/assets/be1076c5-ce21-4a2c-b444-eb1ec853508c)
 
 Quality Gate: Passed
