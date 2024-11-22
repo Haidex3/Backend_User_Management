@@ -136,4 +136,18 @@ GRANT INSERT, UPDATE, DELETE ON TABLE students TO librarydirector;
 ![image](https://github.com/user-attachments/assets/3d7357e6-4f33-4de2-a604-328218f742f4)
 
 
+## SONARLINT
+Es una herramienta estática de análisis de código diseñada para integrarse directamente en los entornos de desarrollo como IntelliJ IDEA, Eclipse, Visual Studio Code, entre otros. Su propósito principal es identificar y solucionar problemas relacionados con la calidad del código, como:
+
+* Errores de codificación.
+* Malas prácticas.
+* Vulnerabilidades de seguridad.
+* Problemas de mantenibilidad.
+* Código duplicado.
+
+Desde IntelliJ se realiza la instación a través de la ruta:
+`File > Settings > Plugins > SonarLint` 
+
+![image](https://github.com/user-attachments/assets/ef5020a2-4186-4968-9239-dc63500cd4c2)
+
 
