@@ -150,4 +150,12 @@ Desde IntelliJ se realiza la instación a través de la ruta:
 
 ![image](https://github.com/user-attachments/assets/ef5020a2-4186-4968-9239-dc63500cd4c2)
 
+## SONARQUBE
 
+Es una herramienta poderosa de análisis estático de código que ayuda a identificar problemas relacionados con la calidad, seguridad y mantenibilidad del software. Proporciona métricas detalladas, como cobertura de pruebas, deuda técnica y vulnerabilidades, permitiendo a los desarrolladores mejorar continuamente su código.
+
+![image](https://github.com/user-attachments/assets/be1076c5-ce21-4a2c-b444-eb1ec853508c)
+
+Quality Gate: Passed
+
+Esto indica que el proyecto cumple con los criterios establecidos en el Quality Gate. Aunque existen algunos problemas, no son lo suficientemente graves como para impedir que el proyecto sea considerado de calidad aceptable.
