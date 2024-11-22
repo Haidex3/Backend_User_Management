@@ -1,5 +1,6 @@
 package edu.eci.cvds.userManagement.model;
 
+import edu.eci.cvds.userManagement.UserManagementApplication;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -216,5 +217,18 @@ class UserManagementTest {
         Student student = new Student("S123", "Bob Brown", "321654987", "ID", "Biology", "R101");
         assertEquals("Bob Brown", student.getName(), "The name should be 'Bob Brown' for the given input.");
     }
+
+
+
+    @Test
+    void testMainApplicationRunsSuccessfully() {
+        try {
+            String[] args = {};
+            UserManagementApplication.main(args);
+        } catch (Exception e) {
+            fail("Application failed to start: " + e.getMessage());
+        }
+    }
+
 
 }
