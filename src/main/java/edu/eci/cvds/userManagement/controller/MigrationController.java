@@ -1,9 +1,9 @@
-package edu.eci.cvds.UserManagement.controller;
+package edu.eci.cvds.userManagement.controller;
 
-import edu.eci.cvds.UserManagement.model.Responsible;
-import edu.eci.cvds.UserManagement.model.Student;
-import edu.eci.cvds.UserManagement.service.FindService;
-import edu.eci.cvds.UserManagement.service.RegisterService;
+import edu.eci.cvds.userManagement.model.Responsible;
+import edu.eci.cvds.userManagement.model.Student;
+import edu.eci.cvds.userManagement.service.FindService;
+import edu.eci.cvds.userManagement.service.RegisterService;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.http.HttpStatus;
