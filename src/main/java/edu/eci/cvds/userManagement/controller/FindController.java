@@ -37,18 +37,6 @@ public class FindController {
         return ResponseEntity.ok(grade);
     }
 
-    /**
-     * Endpoint to obtain the courses associated with a degree.
-     *
-     * @param gradeName The name of the grade.
-     * @return List of course names.
-     */
-    @GetMapping("/{gradeName}/courses")
-    public List<String> getCoursesByGrade(@PathVariable String gradeName) {
-        List<Course> courses = findService.findCoursesByGradeName(gradeName);
-        return courses.stream().map(Course::getName).toList();
-    }
-
 
     @GetMapping("/findResponsibleByDocument")
     public Responsible findResponsibleByDocument(
