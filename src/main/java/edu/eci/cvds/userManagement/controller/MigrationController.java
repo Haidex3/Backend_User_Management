@@ -5,12 +5,13 @@ import edu.eci.cvds.userManagement.service.FindService;
 import edu.eci.cvds.userManagement.service.RegisterService;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.Optional;
@@ -70,6 +71,51 @@ public class MigrationController {
         } catch (IOException e) {
             e.printStackTrace();
             return "An error occurred during data migration: " + e.getMessage();
+        }
+    }
+
+
+    @GetMapping("/download-template")
+    public ResponseEntity<byte[]> downloadTemplate() {
+        try (Workbook workbook = new XSSFWorkbook()) {
+            Sheet sheet = workbook.createSheet("baseDeDatosEstudiantes");
+
+            Row headerRow = sheet.createRow(0);
+            String[] headers = {
+                    "codigoEstudiante",
+                    "nombreEstudiante",
+                    "numeroDocumentoEstudiante",
+                    "tipoDoc",
+                    "nombreResponsable",
+                    "documentoResponsable",
+                    "expedicionDocResponsable",
+                    "numeroTelefonico",
+                    "correoResponsable",
+                    "Curso",
+                    "Grado"
+            };
+
+            for (int i = 0; i < headers.length; i++) {
+                Cell cell = headerRow.createCell(i);
+                cell.setCellValue(headers[i]);
+            }
+
+            for (int i = 0; i < headers.length; i++) {
+                sheet.autoSizeColumn(i);
+            }
+
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            workbook.write(outputStream);
+            byte[] excelBytes = outputStream.toByteArray();
+
+            return ResponseEntity.ok()
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=baseDeDatosEstudiantes.xlsx")
+                    .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                    .body(excelBytes);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body(null);
         }
     }
 }

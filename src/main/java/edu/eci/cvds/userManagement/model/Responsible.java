@@ -83,7 +83,7 @@ public class Responsible {
         if (correctedValue != null) {
             return correctedValue;
         } else {
-            return siteDocument;
+            return normalized;
         }
     }
 
