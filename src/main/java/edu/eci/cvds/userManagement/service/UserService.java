@@ -102,4 +102,12 @@ public class UserService {
         responsibleRepository.deleteByDocument(document);
     }
 
+    /**
+     * Retrieves the total count of responsibles.
+     *
+     * @return The total number of responsibles.
+     */
+    public long getTotalResponsibleCount() {
+        return responsibleRepository.count();
+    }
 }

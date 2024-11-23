@@ -44,6 +44,17 @@ public class UserController {
         return ResponseEntity.ok(totalStudents);
     }
 
+    /**
+     * Endpoint to get the total count of responsibles.
+     *
+     * @return The total number of responsibles wrapped in a ResponseEntity.
+     */
+    @GetMapping("/responsibles/count")
+    public ResponseEntity<Long> getTotalResponsibleCount() {
+        long totalStudents = userService.getTotalResponsibleCount();
+        return ResponseEntity.ok(totalStudents);
+    }
+
 
     /**
      * Endpoint to update the course of a student.
