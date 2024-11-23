@@ -105,7 +105,7 @@ public class UserController {
      * @param document The number of document of the economic responsible to delete.
      * @return ResponseEntity with the status of the operation.
      */
-    @DeleteMapping("delete/{id}")
+    @DeleteMapping("delete/{document}")
     public ResponseEntity<String> deleteResponsible(@PathVariable String document) {
         try {
             userService.deleteByDocument(document);
