@@ -39,16 +39,19 @@ public class MigrationController {
 
             while (rowIterator.hasNext()) {
                 Row row = rowIterator.next();
-                String studentId = String.valueOf(row.getCell(0).getNumericCellValue());
+                String studentId = String.valueOf((int)row.getCell(0).getNumericCellValue());
                 String studentName = row.getCell(1).getStringCellValue();
-                String studentDocument = String.valueOf(row.getCell(2).getNumericCellValue());
+                String studentDocument = String.valueOf((int)row.getCell(2).getNumericCellValue());
                 String studentDocumentType = row.getCell(3).getStringCellValue();
                 String responsibleName = row.getCell(4).getStringCellValue();
-                String responsibleDocNumber = String.valueOf(row.getCell(5).getNumericCellValue());
+                String responsibleDocNumber = String.valueOf((int)row.getCell(5).getNumericCellValue());
                 String responsibleDocSite = row.getCell(6).getStringCellValue();
-                String responsiblePhone = String.valueOf(row.getCell(7).getNumericCellValue());;
+                String responsiblePhone = String.valueOf((int)row.getCell(7).getNumericCellValue());;
                 String responsibleEmail = row.getCell(8).getStringCellValue();
-                String studentCourse = row.getCell(9).getStringCellValue();
+                String studentCourse = (row.getCell(9).getCellType() == CellType.NUMERIC)
+                        ? String.valueOf((int) row.getCell(9).getNumericCellValue())
+                        : row.getCell(9).getStringCellValue().trim();
+
 
                 Optional<Responsible> existingResponsible = Optional.ofNullable(findService.findResponsibleByDocument(responsibleDocNumber));
                 Responsible responsible;

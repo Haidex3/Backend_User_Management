@@ -50,11 +50,43 @@ public class Responsible {
      */
     public Responsible(String document, String siteDocument, String name, String phoneNumber, String email) {
         this.document = document;
-        this.siteDocument = siteDocument;
+        this.siteDocument = defSiteDocument(siteDocument);
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.email = email;
     }
+
+    /**
+     * Normalizes the `siteDocument` field to ensure consistent formatting of location names.
+     * If the `siteDocument` matches predefined variations of known locations, it is standardized.
+     * If it does not match any known location, it is marked as "UNKNOWN".
+     *
+     * @return A standardized string representing the location, or "UNKNOWN" if it does not match known locations.
+     */
+    private String defSiteDocument(String siteDocument) {
+        if (siteDocument == null || siteDocument.trim().isEmpty()) {
+            return "DESCONOCIDO";
+        }
+        String normalized = siteDocument.trim().toUpperCase();
+        String correctedValue = switch (normalized) {
+            case "BOGOTA", "BOGOTÁ", "BOGOTA DC", "BOGOTÁ DC", "BOGOTA D.C", "BOGOTÁ D.C", "BOGOTA D.C.",
+                 "BOGOTÁ D.C." -> "BOGOTÁ D.C.";
+            case "MEDELLIN" -> "MEDELLÍN";
+            case "GUAMO (TOL)" -> "GUAMO";
+            case "LA DORADA (CALDAS)" -> "LA DORADA";
+            case "ZIPAQUIRA" -> "ZIPAQUIRÁ";
+            case "CHIPAQUE CUNDINAMARCA" -> "CHIPAQUE";
+            case "SANTIAGO DE CALI" -> "CALI";
+            case "CARTAGENA DE INDIAS" -> "CARTAGENA";
+            default -> null;
+        };
+        if (correctedValue != null) {
+            return correctedValue;
+        } else {
+            return siteDocument;
+        }
+    }
+
 
     /**
      * Gets the type of document used for identification.
