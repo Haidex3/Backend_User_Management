@@ -136,4 +136,32 @@ GRANT INSERT, UPDATE, DELETE ON TABLE students TO librarydirector;
 ![image](https://github.com/user-attachments/assets/3d7357e6-4f33-4de2-a604-328218f742f4)
 
 
+## SONARLINT
+Es una herramienta estática de análisis de código diseñada para integrarse directamente en los entornos de desarrollo como IntelliJ IDEA, Eclipse, Visual Studio Code, entre otros. Su propósito principal es identificar y solucionar problemas relacionados con la calidad del código, como:
 
+* Errores de codificación.
+* Malas prácticas.
+* Vulnerabilidades de seguridad.
+* Problemas de mantenibilidad.
+* Código duplicado.
+
+Desde IntelliJ se realiza la instación a través de la ruta:
+`File > Settings > Plugins > SonarLint` 
+
+![image](https://github.com/user-attachments/assets/ef5020a2-4186-4968-9239-dc63500cd4c2)
+
+## SONARQUBE
+
+Es una herramienta poderosa de análisis estático de código que ayuda a identificar problemas relacionados con la calidad, seguridad y mantenibilidad del software. Proporciona métricas detalladas, como cobertura de pruebas, deuda técnica y vulnerabilidades, permitiendo a los desarrolladores mejorar continuamente su código.
+
+Se siguen las siguientes especificaciones:
+- Se descarga la imagen de docker con el siguiente comando ```docker pull sonarqube``` 
+- Se arranca el servicio de SonarQube con el siguiente comando ```docker run -d --name sonarqube -e SONAR_ES_BOOTSTRAP_CHECKS_DISABLE=true -p 9000:9000 sonarqube:latest```
+- Se valida funcionamiento ```docker ps -a```
+- Se inicia sesión en sonar ```localhost:9000``` cambiando la clave por defecto ( usuario y contraseña admin ). 
+
+![image](https://github.com/user-attachments/assets/be1076c5-ce21-4a2c-b444-eb1ec853508c)
+
+Quality Gate: Passed
+
+Esto indica que el proyecto cumple con los criterios establecidos en el Quality Gate. Aunque existen algunos problemas, no son lo suficientemente graves como para impedir que el proyecto sea considerado de calidad aceptable.
