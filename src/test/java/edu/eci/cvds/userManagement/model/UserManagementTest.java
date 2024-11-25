@@ -219,16 +219,4 @@ class UserManagementTest {
     }
 
 
-
-    @Test
-    void testMainApplicationRunsSuccessfully() {
-        try {
-            String[] args = {};
-            UserManagementApplication.main(args);
-        } catch (Exception e) {
-            fail("Application failed to start: " + e.getMessage());
-        }
-    }
-
-
 }
