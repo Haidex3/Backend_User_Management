@@ -40,7 +40,7 @@ representar a varios estudiantes siempre y cuando estos tengan un parentezco.
 Se diseña la base de datos `usermanagement` con los siguientes detalles:
 
 
-![image](https://github.com/user-attachments/assets/dcacd7ed-9386-4b19-a537-7575b1bbde72)
+![image](https://github.com/user-attachments/assets/74e6a899-d20c-4a92-af16-d1a8dbf52f21)
 
 
 
