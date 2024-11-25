@@ -168,7 +168,7 @@ class UserManagementTest {
     @Test
     void testGetSiteDocument() {
         Responsible responsible = new Responsible("12345", "Bogotá D.C.", "Jane Doe", "555-1234", "jane.doe@example.com");
-        assertEquals("Bogotá D.C.", responsible.getSiteDocument(), "The site document should be '98765' for the given input.");
+        assertEquals("BOGOTÁ D.C.", responsible.getSiteDocument(), "The site document should be '98765' for the given input.");
     }
 
 
