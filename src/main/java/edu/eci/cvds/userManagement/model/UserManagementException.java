@@ -16,13 +16,28 @@ public class UserManagementException extends Exception {
     public static final String USER_UPDATE_FAILED = "Failed to update the user information.";
     public static final String USER_DELETION_FAILED = "Failed to delete the user.";
     public static final String EMAIL_ALREADY_EXISTS = "A user with the given email already exists.";
+    public static final String EXPIRED_TOKEN = "The provided token has expired.";
+    public static final String INVALID_TOKEN = "The provided token is invalid.";
+    public static final String ACCESS_DENIED = "Access denied: insufficient permissions.";
+    public static final String RESPONSIBLE_NOT_FOUND = "Responsible entity not found with the given document number.";
 
     /**
      * Constructs a new UserManagementException with a specified error message.
      *
      * @param message the detail message for the exception.
      */
-    public UserManagementException (String message)	{
+    public UserManagementException(String message) {
         super(message);
     }
+
+    /**
+     * Constructs a new UserManagementException with a specified error message and cause.
+     *
+     * @param message the detail message for the exception.
+     * @param cause the underlying cause of the exception.
+     */
+    public UserManagementException(String message, Throwable cause) {
+        super(message, cause);
+    }
 }
+
