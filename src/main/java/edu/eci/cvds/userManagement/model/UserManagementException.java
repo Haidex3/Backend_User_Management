@@ -20,6 +20,10 @@ public class UserManagementException extends Exception {
     public static final String INVALID_TOKEN = "The provided token is invalid.";
     public static final String ACCESS_DENIED = "Access denied: insufficient permissions.";
     public static final String RESPONSIBLE_NOT_FOUND = "Responsible entity not found with the given document number.";
+    public static final String COURSES_NOT_FOUND = "Courses not found for the given grade.";
+    public static final String GRADE_NOT_FOUND = "Grade not found with the given name.";
+    public static final String GRADE_NAME_REQUIRED = "The grade name is required.";
+    public static final String COURSE_NOT_FOUND = "Course not found with the given name";
 
     /**
      * Constructs a new UserManagementException with a specified error message.
