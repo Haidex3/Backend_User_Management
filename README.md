@@ -168,3 +168,9 @@ Se siguen las siguientes especificaciones:
 Quality Gate: Passed
 
 Esto indica que el proyecto cumple con los criterios establecidos en el Quality Gate. Aunque existen algunos problemas, no son lo suficientemente graves como para impedir que el proyecto sea considerado de calidad aceptable.
+
+
+## COBERTURA - JACOCO
+
+![image](https://github.com/user-attachments/assets/e37daa07-abd5-471c-8c5b-a7b4e999d5e4)
+
