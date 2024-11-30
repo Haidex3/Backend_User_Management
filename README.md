@@ -40,7 +40,7 @@ representar a varios estudiantes siempre y cuando estos tengan un parentezco.
 Se diseña la base de datos `usermanagement` con los siguientes detalles:
 
 
-![image](https://github.com/user-attachments/assets/dcacd7ed-9386-4b19-a537-7575b1bbde72)
+![image](https://github.com/user-attachments/assets/74e6a899-d20c-4a92-af16-d1a8dbf52f21)
 
 
 
@@ -55,66 +55,69 @@ Tenienedo en cuenta las siguientes especificaciones:
 - Creación de las tablas
 
 ```sh
-CREATE TABLE Courses (
-    id INTEGER,
-    name VARCHAR(50)
+CREATE TABLE public.users (
+    id VARCHAR PRIMARY KEY,
+    username VARCHAR NOT NULL UNIQUE,
+    password VARCHAR NOT NULL
 );
 
-CREATE TABLE Responsibles (
-    id VARCHAR(50),
-    identification_type VARCHAR(20),
-    name VARCHAR(100),
-    phoneNumber VARCHAR(20),
-    email VARCHAR(100),
-    address VARCHAR(100)
+CREATE TABLE public.responsibles (
+    document VARCHAR PRIMARY KEY,
+    site_document VARCHAR,
+    name VARCHAR,
+    phone_number VARCHAR,
+    email VARCHAR
 );
 
-CREATE TABLE Administrators (
-    id BIGINT,
-    userName VARCHAR(50),
-    password VARCHAR(50)
+CREATE TABLE public.grades (
+    name VARCHAR PRIMARY KEY
 );
 
+CREATE TABLE public.courses (
+    name VARCHAR PRIMARY KEY,
+    grade_name VARCHAR
+);
 
-CREATE TABLE Students (
-    code VARCHAR(50),
-    identification_type VARCHAR(20),
-    identification_number VARCHAR(50),
-    userName VARCHAR(50),
-    password VARCHAR(50),
-    name VARCHAR(100),
-    academicYear INTEGER,
-    relationWithResponsible VARCHAR(50),
-    idResponsible VARCHAR(50),
-    course INTEGER
+CREATE TABLE public.students (
+    id VARCHAR PRIMARY KEY,
+    name VARCHAR NOT NULL,
+    document VARCHAR NOT NULL,
+    document_type VARCHAR,
+    course_name VARCHAR,
+    responsible_document VARCHAR
+);
+
+CREATE TABLE public.administrators (
+    id VARCHAR PRIMARY KEY,
+    email VARCHAR NOT NULL,
+    name VARCHAR NOT NULL
+
+
 );
 ```
 
 - Restricciones
 
 ```sh
-ALTER TABLE Courses
-ADD CONSTRAINT pk_courses PRIMARY KEY (id);
+ALTER TABLE public.courses
+ADD CONSTRAINT fk_grade FOREIGN KEY (grade_name)
+REFERENCES public.grades(name) ON DELETE SET NULL;
 
-ALTER TABLE Responsibles
-ADD CONSTRAINT pk_responsibles PRIMARY KEY (id);
+ALTER TABLE public.students
+ADD CONSTRAINT fk_user FOREIGN KEY (id)
+REFERENCES public.users(id) ON DELETE CASCADE;
 
-ALTER TABLE Administrators
-ADD CONSTRAINT pk_administrators PRIMARY KEY (id);
+ALTER TABLE public.administrators
+ADD CONSTRAINT fk_administrator_user FOREIGN KEY (id)
+REFERENCES public.users(id) ON DELETE CASCADE;
 
-ALTER TABLE Students
-ADD CONSTRAINT pk_students PRIMARY KEY (code);
+ALTER TABLE public.students
+ADD CONSTRAINT fk_course FOREIGN KEY (course_name)
+REFERENCES public.courses(name) ON DELETE SET NULL;
 
-ALTER TABLE Students
-ADD CONSTRAINT uk_students_identification UNIQUE (identification_type, identification_number);
-
-ALTER TABLE Students
-ADD CONSTRAINT fk_students_responsible FOREIGN KEY (idResponsible)
-REFERENCES Responsibles(id);
-
-ALTER TABLE Students
-ADD CONSTRAINT fk_students_course FOREIGN KEY (course)
-REFERENCES Courses(id);
+ALTER TABLE public.students
+ADD CONSTRAINT fk_responsible FOREIGN KEY (responsible_document)
+REFERENCES public.responsibles(document) ON DELETE SET NULL;
 ```
 
 - Usuario de conexión
@@ -165,3 +168,9 @@ Se siguen las siguientes especificaciones:
 Quality Gate: Passed
 
 Esto indica que el proyecto cumple con los criterios establecidos en el Quality Gate. Aunque existen algunos problemas, no son lo suficientemente graves como para impedir que el proyecto sea considerado de calidad aceptable.
+
+
+## COBERTURA - JACOCO
+
+![image](https://github.com/user-attachments/assets/e37daa07-abd5-471c-8c5b-a7b4e999d5e4)
+

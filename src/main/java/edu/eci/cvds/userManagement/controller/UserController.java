@@ -126,4 +126,23 @@ public class UserController {
         }
     }
 
+    /**
+     * Endpoint to update the status of a student to false.
+     *
+     * @param studentId The ID of the student to update.
+     * @return A response indicating success or failure.
+     */
+    @PutMapping("/students/{id}/deactivate")
+    public ResponseEntity<String> deactivateStudent(@PathVariable("id") String studentId) {
+        try {
+            userService.updateStudentStatus(studentId, false);
+            return ResponseEntity.ok("Student successfully deactivated.");
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Student not found.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred while deactivating the student.");
+        }
+    }
+
+
 }

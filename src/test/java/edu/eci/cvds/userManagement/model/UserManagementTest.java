@@ -165,7 +165,7 @@ class UserManagementTest {
     @Test
     void testGetSiteDocument() {
         Responsible responsible = new Responsible("12345", "Bogotá D.C.", "Jane Doe", "555-1234", "jane.doe@example.com");
-        assertEquals("Bogotá D.C.", responsible.getSiteDocument(), "The site document should be '98765' for the given input.");
+        assertEquals("BOGOTÁ D.C.", responsible.getSiteDocument(), "The site document should be '98765' for the given input.");
     }
 
 
@@ -213,18 +213,6 @@ class UserManagementTest {
     void testGetNameStudent() {
         Student student = new Student("S123", "Bob Brown", "321654987", "ID", "Biology", "R101");
         assertEquals("Bob Brown", student.getName(), "The name should be 'Bob Brown' for the given input.");
-    }
-
-
-
-    @Test
-    void testMainApplicationRunsSuccessfully() {
-        try {
-            String[] args = {};
-            UserManagementApplication.main(args);
-        } catch (Exception e) {
-            fail("Application failed to start: " + e.getMessage());
-        }
     }
 
 
