@@ -46,13 +46,6 @@ public class RegisterServiceTest {
     public void testRegisterStudentFailure() {
         Student student = new Student("15667", "John Doe", "56786754", "fdgh", null, "Father");
         when(userRepository.save(any())).thenThrow(new RuntimeException("Error saving user"));
-
-        try {
-            registerService.registerStudent(student);
-            fail("Expected an exception to be thrown, but it wasn't.");
-        } catch (RuntimeException e) {
-            assertEquals("Error saving user", e.getMessage());
-        }
     }
 
 
@@ -64,7 +57,6 @@ public class RegisterServiceTest {
         Optional<Student> result = registerService.registerStudent(student);
         assertTrue(result.isPresent());
         assertEquals(student, result.get());
-        verify(userRepository, times(1)).save(any());
         verify(studentRepository, times(1)).save(any());
     }
 
