@@ -98,5 +98,4 @@ public class RegisterController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
-
 }

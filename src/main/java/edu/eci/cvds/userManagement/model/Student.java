@@ -1,7 +1,7 @@
 package edu.eci.cvds.userManagement.model;
 
 import jakarta.persistence.*;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 
 /**
  * The Student class represents a student entity, including information about
@@ -10,12 +10,14 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Entity
 @Table(name = "students", schema = "public")
-public class Student extends User{
+public class Student{
     @Id
     @Column(name = "id", nullable = false)
     private String id;
+    private String extId;
     private String name;
     private String document;
+
     @Column(name = "document_type")
     private String documentType;
 
@@ -38,16 +40,12 @@ public class Student extends User{
      */
     public Student (String id, String name,String document, String documentType, String courseName, String responsibleDocument){
         this.id=id;
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        String encodedPassword = passwordEncoder.encode(String.valueOf(id));
-        setUserName(name);
-        setPassword(encodedPassword);
+        this.extId= null;
         this.name=name;
         this.document = document;
         this.documentType = documentType;
         this.courseName = courseName;
         this.responsibleDocument = responsibleDocument;
-        setRole("student");
     }
 
     /**
@@ -55,17 +53,6 @@ public class Student extends User{
      */
     public Student() {
         super();
-    }
-
-    /**
-     * Retrieves the username of the student.
-     *
-     * @return The username of the student.
-     */
-    @Override
-    public String getUserName() {
-
-        return super.getUserName();
     }
 
     /**
@@ -85,10 +72,6 @@ public class Student extends User{
         return documentType;
     }
 
-    public String getPassword() {
-        return super.getPassword();
-    }
-
     /**
      * Sets the course of the student.
      *
@@ -105,6 +88,10 @@ public class Student extends User{
      */
     public String getName() {
         return name;
+    }
+
+    public void setExtId(String newExtId){
+        this.extId=newExtId;
     }
 
     public String getId() {

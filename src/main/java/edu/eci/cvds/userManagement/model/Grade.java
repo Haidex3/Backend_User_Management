@@ -12,6 +12,11 @@ public class Grade {
     private String description;
 
 
+    /**
+     *
+     * @param name
+     * @param description
+     */
     public Grade(String name, String description){
         this.name=name;
         this.description=description;
