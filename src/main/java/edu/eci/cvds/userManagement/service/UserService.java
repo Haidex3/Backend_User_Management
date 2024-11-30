@@ -4,6 +4,7 @@ import edu.eci.cvds.userManagement.model.Responsible;
 import edu.eci.cvds.userManagement.model.Student;
 import edu.eci.cvds.userManagement.repositories.ResponsibleRepository;
 import edu.eci.cvds.userManagement.repositories.StudentRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -110,4 +111,12 @@ public class UserService {
     public long getTotalResponsibleCount() {
         return responsibleRepository.count();
     }
+
+    public void updateStudentStatus(String studentId, boolean status) {
+        Student student = studentRepository.findById(studentId)
+                .orElseThrow(() -> new EntityNotFoundException("Student not found"));
+        student.setActive(status);
+        studentRepository.save(student);
+    }
+
 }

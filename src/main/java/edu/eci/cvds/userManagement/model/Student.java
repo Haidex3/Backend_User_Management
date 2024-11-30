@@ -25,6 +25,9 @@ public class Student extends User{
     @Column(name = "responsible_document")
     private String responsibleDocument;
 
+    @Column(name = "active")
+    private boolean active;
+
     /**
      * Constructs a new Student with the specified attributes. Automatically sets the role to "student"
      * and encodes the student's ID as their password using BCrypt.
@@ -47,6 +50,7 @@ public class Student extends User{
         this.documentType = documentType;
         this.courseName = courseName;
         this.responsibleDocument = responsibleDocument;
+        this.active = true;
         setRole("student");
     }
 
@@ -107,11 +111,30 @@ public class Student extends User{
         return name;
     }
 
+    /**
+     * Get ID.
+     *
+     * @return id
+     */
     public String getId() {
         return id;
     }
 
+    /**
+     * Get the name of course.
+     *
+     * @return courseName
+     */
     public String getCourseName() {
         return courseName;
+    }
+
+    /**
+     * Updates state of student.
+     *
+     * @param status The new status.
+     */
+    public void setActive(boolean status) {
+        this.active=status;
     }
 }
