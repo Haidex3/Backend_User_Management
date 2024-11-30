@@ -1,7 +1,6 @@
 package edu.eci.cvds.userManagement.controller;
 
 import edu.eci.cvds.userManagement.model.Course;
-import edu.eci.cvds.userManagement.service.FindService;
 import edu.eci.cvds.userManagement.service.RegisterService;
 import edu.eci.cvds.userManagement.model.Responsible;
 import edu.eci.cvds.userManagement.model.Student;
@@ -32,70 +31,88 @@ public class RegisterController {
      *
      * @param registerService the service responsible for handling the registration of students and responsible persons.
      */
-    public RegisterController(RegisterService registerService, FindService newFindService) {
+    public RegisterController(RegisterService registerService) {
         this.registerService = registerService;
     }
 
-    /**
-     * Endpoint to handle the registration of a new student.
-     * This method accepts a `Student` object in the request body, attempts to register the student using the
-     * RegisterService, and returns a response with a success or failure message.
-     *
-     * @param studentData the student to be registered.
-     * @return a ResponseEntity containing the result of the registration attempt.
-     */
     @PostMapping("/registerStudent")
     public ResponseEntity<Map<String, Object>> registerStudent(@RequestBody Student studentData) {
-        Student student = new Student(
-                studentData.getId(),
-                studentData.getName(),
-                studentData.getDocument(),
-                studentData.getDocumentType(),
-                studentData.getCourseName(),
-                studentData.getResponsibleDocument()
-        );
         Map<String, Object> response = new HashMap<>();
-        Optional<Student> studentOptional = registerService.registerStudent(student);
-        if (studentOptional.isPresent()) {
-            response.put("message", "Registration of Student successful!");
-            response.put("Student", studentOptional.get());
-            response.put("roleId", studentOptional.get().getDocument());
-            return ResponseEntity.ok(response);
-        }else {
-            response.put("message", "Registration failed");
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+        try {
+            boolean isRegistered = registerService.registerStudent(studentData).isPresent();
+            if (isRegistered) {
+                return assignValues(response, 200,
+                        "Student registration successful.",
+                        "The student has been registered successfully.");
+            } else {
+                return assignValues(response, 400,
+                        "Student registration failed due to invalid input or constraints.",
+                        "Failed to register the student. Please check your data.");
+            }
+        } catch (Exception e) {
+            return assignValues(response, 500,
+                    "An unexpected error occurred: " + e.getMessage(),
+                    "An error occurred while processing your request. Please try again later.");
         }
     }
 
-    /**
-     * Endpoint to handle the registration of a new responsible person.
-     * This method accepts a `Responsible` object in the request body, attempts to register the responsible
-     * person using the RegisterService, and returns a response with a success or failure message.
-     *
-     * @param newResponsible the responsible person to be registered.
-     * @return a ResponseEntity containing the result of the registration attempt.
-     */
+    private ResponseEntity<Map<String, Object>> assignValues(Map<String, Object> response, int status, String developerMessage, String userMessage) {
+        response.put("status", status);
+        response.put("developerMessage", developerMessage);
+        response.put("userMessage", userMessage);
+
+        HttpStatus httpStatus;
+        switch (status) {
+            case 200 -> httpStatus = HttpStatus.OK;
+            case 400 -> httpStatus = HttpStatus.BAD_REQUEST;
+            default -> httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
+        }
+        return ResponseEntity.status(httpStatus).body(response);
+    }
+
+
+
+    @PostMapping("/assignExtIdStudent")
+    public ResponseEntity<Map<String, Object>> assignExtIdStudent(@RequestBody Responsible newResponsible){
+        Map<String, Object> response = new HashMap<>();
+        return null;
+    }
+
+
     @PostMapping("/registerResponsible")
     public ResponseEntity<Map<String, Object>> registerResponsible(@RequestBody Responsible newResponsible) {
         Map<String, Object> response = new HashMap<>();
-        Optional<Responsible> responsibleOptional = registerService.registerResponsible(newResponsible);
-        if (responsibleOptional.isPresent()) {
-            response.put("message", "Registration of Responsible successful!");
-            response.put("Student", responsibleOptional.get());
-            return ResponseEntity.ok(response);
-        } else {
-            response.put("message", "Registration failed");
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+        try {
+            boolean isRegistered = registerService.registerResponsible(newResponsible).isPresent();
+            if (isRegistered) {
+                return assignValues(response, 200,
+                        "Responsible registration successful.",
+                        "The responsible has been registered successfully.");
+            } else {
+                return assignValues(response, 400,
+                        "Responsible registration failed due to invalid input or constraints.",
+                        "Failed to register the responsible. Please check your data.");
+            }
+        } catch (Exception e) {
+            return assignValues(response, 500,
+                    "An unexpected error occurred: " + e.getMessage(),
+                    "An error occurred while processing your request. Please try again later.");
         }
     }
 
     @PostMapping("/createCourse")
-    public ResponseEntity<?> createCourse(@RequestBody Course newCourse) {
+    public ResponseEntity<Map<String, Object>> createCourse(@RequestBody Course newCourse) {
+        Map<String, Object> response = new HashMap<>();
         try {
             Course course = registerService.createCourse(newCourse);
-            return ResponseEntity.ok(course);
+            return assignValues(response, 200,
+                    "Course creation successful.",
+                    "The course has been created successfully.");
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return assignValues(response, 400,
+                    "Course creation failed: " + e.getMessage(),
+                    "Failed to create the course. Please check the provided data.");
         }
     }
+
 }

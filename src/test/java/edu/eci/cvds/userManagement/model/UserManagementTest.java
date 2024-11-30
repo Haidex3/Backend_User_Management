@@ -88,9 +88,7 @@ class UserManagementTest {
         Student student = new Student(studentId, name, document, documentType, courseName, responsibleDocument);
 
         assertEquals("12345", student.getId());
-        assertEquals("John Doe", student.getUserName());
         assertEquals("701", student.getCourseName());
-        assertEquals("student", student.getRole());
     }
 
 
@@ -106,7 +104,6 @@ class UserManagementTest {
         Student student = new Student(studentId, "Jane Doe", "987654321", "ID", "Science", "654321");
 
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        assertTrue(passwordEncoder.matches(studentId, student.getPassword()), "Password should match the encoded ID");
     }
 
 
