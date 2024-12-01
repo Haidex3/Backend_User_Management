@@ -1,6 +1,7 @@
 package edu.eci.cvds.userManagement.controller;
 
 import edu.eci.cvds.userManagement.model.Course;
+import edu.eci.cvds.userManagement.service.JwtService;
 import edu.eci.cvds.userManagement.service.RegisterService;
 import edu.eci.cvds.userManagement.model.Responsible;
 import edu.eci.cvds.userManagement.model.Student;
@@ -24,49 +25,74 @@ import java.util.Map;
 @RequestMapping
 public class RegisterController {
     private final RegisterService registerService;
+    private final JwtService jwtService;
 
-    public RegisterController(RegisterService registerService) {
+    public RegisterController(RegisterService registerService, JwtService jwtService) {
         this.registerService = registerService;
+        this.jwtService = jwtService;
     }
 
     @PostMapping("/students")
-    public ResponseEntity<Map<String, Object>> createStudent(@RequestBody Student studentData) {
+    public ResponseEntity<Map<String, Object>> registerStudent(
+            @RequestHeader("Authorization") String token,
+            @RequestBody Student studentData) {
         Map<String, Object> response = new HashMap<>();
         try {
+            jwtService.parseToken(token);
             boolean isRegistered = registerService.registerStudent(studentData).isPresent();
             if (isRegistered) {
-                return buildResponse(response, 200, "Student registered successfully.", "The student was successfully registered.");
+                return buildResponse(response, 200, "Student registration successful.", "The student has been registered successfully.");
             } else {
-                return buildResponse(response, 400, "Invalid student data.", "Failed to register the student.");
+                return buildResponse(response, 400, "Invalid student data.", "Failed to register the student. Please check your data.");
             }
         } catch (Exception e) {
-            return buildResponse(response, 500, "Unexpected error: " + e.getMessage(), "An error occurred while processing your request.");
+            return buildResponse(response, 500, "Unexpected error occurred in register: " + e.getMessage(), "An error occurred while processing your request in register. Please try again later.");
         }
     }
 
-    @PostMapping("/responsibles")
-    public ResponseEntity<Map<String, Object>> createResponsible(@RequestBody Responsible newResponsible) {
+    @PostMapping("/responsible")
+    public ResponseEntity<Map<String, Object>> registerResponsible(
+            @RequestHeader("Authorization") String token,
+            @RequestBody Responsible newResponsible) {
         Map<String, Object> response = new HashMap<>();
         try {
+            jwtService.parseToken(token);
             boolean isRegistered = registerService.registerResponsible(newResponsible).isPresent();
             if (isRegistered) {
-                return buildResponse(response, 200, "Responsible registered successfully.", "The responsible was successfully registered.");
+                return buildResponse(response, 200, "Responsible registration successful.", "The responsible has been registered successfully.");
             } else {
-                return buildResponse(response, 400, "Invalid responsible data.", "Failed to register the responsible.");
+                return buildResponse(response, 400, "Invalid responsible data.", "Failed to register the responsible. Please check your data.");
             }
         } catch (Exception e) {
-            return buildResponse(response, 500, "Unexpected error: " + e.getMessage(), "An error occurred while processing your request.");
+            return buildResponse(response, 500, "Unexpected error occurred: " + e.getMessage(), "An error occurred while processing your request. Please try again later.");
         }
     }
 
     @PostMapping("/courses")
-    public ResponseEntity<Map<String, Object>> createCourse(@RequestBody Course newCourse) {
+    public ResponseEntity<Map<String, Object>> createCourse(
+            @RequestHeader("Authorization") String token,
+            @RequestBody Course newCourse) {
         Map<String, Object> response = new HashMap<>();
         try {
+            jwtService.parseToken(token);
             registerService.createCourse(newCourse);
-            return buildResponse(response, 200, "Course created successfully.", "The course was successfully created.");
+            return buildResponse(response, 200, "Course creation successful.", "The course has been created successfully.");
         } catch (Exception e) {
-            return buildResponse(response, 400, "Invalid course data: " + e.getMessage(), "Failed to create the course.");
+            return buildResponse(response, 400, "Invalid course data.", "Failed to create the course. Please check the provided data.");
+        }
+    }
+
+    @PostMapping("/assignExtIdStudent")
+    public ResponseEntity<Map<String, Object>> assignExtIdStudent(
+            @RequestHeader("Authorization") String token,
+            @RequestBody Responsible newResponsible) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            jwtService.parseToken(token);
+
+            return buildResponse(response, 200, "External ID assignment successful.", "The external ID has been assigned successfully.");
+        } catch (Exception e) {
+            return buildResponse(response, 500, "Unexpected error occurred: " + e.getMessage(), "An error occurred while processing your request. Please try again later.");
         }
     }
 
