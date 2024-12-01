@@ -1,6 +1,7 @@
 package edu.eci.cvds.userManagement.controller;
 
 import edu.eci.cvds.userManagement.model.Course;
+import edu.eci.cvds.userManagement.service.JwtService;
 import edu.eci.cvds.userManagement.service.RegisterService;
 import edu.eci.cvds.userManagement.model.Responsible;
 import edu.eci.cvds.userManagement.model.Student;
@@ -10,14 +11,13 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 /**
  * This class provides endpoints to register students and responsible persons in the system.
  * It exposes two POST endpoints:
  * - `/registerStudent` for registering a new student.
  * - `/registerResponsible` for registering a new responsible person.
- *
+
  * Each method processes a registration request, interacts with the RegisterService to persist the data,
  * and returns an appropriate response with success or error messages.
  */
@@ -25,41 +25,81 @@ import java.util.Optional;
 @RequestMapping
 public class RegisterController {
     private final RegisterService registerService;
+    private final JwtService jwtService;
 
-    /**
-     * Constructor to initialize the RegisterController with the required RegisterService dependency.
-     *
-     * @param registerService the service responsible for handling the registration of students and responsible persons.
-     */
-    public RegisterController(RegisterService registerService) {
+    public RegisterController(RegisterService registerService, JwtService jwtService) {
         this.registerService = registerService;
+        this.jwtService = jwtService;
     }
 
-    @PostMapping("/registerStudent")
-    public ResponseEntity<Map<String, Object>> registerStudent(@RequestBody Student studentData) {
+    @PostMapping("/students")
+    public ResponseEntity<Map<String, Object>> registerStudent(
+            @RequestHeader("Authorization") String token,
+            @RequestBody Student studentData) {
         Map<String, Object> response = new HashMap<>();
         try {
+            jwtService.parseToken(token);
             boolean isRegistered = registerService.registerStudent(studentData).isPresent();
             if (isRegistered) {
-                return assignValues(response, 200,
-                        "Student registration successful.",
-                        "The student has been registered successfully.");
+                return buildResponse(response, 200, "Student registration successful.", "The student has been registered successfully.");
             } else {
-                return assignValues(response, 400,
-                        "Student registration failed due to invalid input or constraints.",
-                        "Failed to register the student. Please check your data.");
+                return buildResponse(response, 400, "Invalid student data.", "Failed to register the student. Please check your data.");
             }
         } catch (Exception e) {
-            return assignValues(response, 500,
-                    "An unexpected error occurred: " + e.getMessage(),
-                    "An error occurred while processing your request. Please try again later.");
+            return buildResponse(response, 500, "Unexpected error occurred in register: " + e.getMessage(), "An error occurred while processing your request in register. Please try again later.");
         }
     }
 
-    private ResponseEntity<Map<String, Object>> assignValues(Map<String, Object> response, int status, String developerMessage, String userMessage) {
+    @PostMapping("/responsible")
+    public ResponseEntity<Map<String, Object>> registerResponsible(
+            @RequestHeader("Authorization") String token,
+            @RequestBody Responsible newResponsible) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            jwtService.parseToken(token);
+            boolean isRegistered = registerService.registerResponsible(newResponsible).isPresent();
+            if (isRegistered) {
+                return buildResponse(response, 200, "Responsible registration successful.", "The responsible has been registered successfully.");
+            } else {
+                return buildResponse(response, 400, "Invalid responsible data.", "Failed to register the responsible. Please check your data.");
+            }
+        } catch (Exception e) {
+            return buildResponse(response, 500, "Unexpected error occurred: " + e.getMessage(), "An error occurred while processing your request. Please try again later.");
+        }
+    }
+
+    @PostMapping("/courses")
+    public ResponseEntity<Map<String, Object>> createCourse(
+            @RequestHeader("Authorization") String token,
+            @RequestBody Course newCourse) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            jwtService.parseToken(token);
+            registerService.createCourse(newCourse);
+            return buildResponse(response, 200, "Course creation successful.", "The course has been created successfully.");
+        } catch (Exception e) {
+            return buildResponse(response, 400, "Invalid course data.", "Failed to create the course. Please check the provided data.");
+        }
+    }
+
+    @PostMapping("/assignExtIdStudent")
+    public ResponseEntity<Map<String, Object>> assignExtIdStudent(
+            @RequestHeader("Authorization") String token,
+            @RequestBody Responsible newResponsible) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            jwtService.parseToken(token);
+
+            return buildResponse(response, 200, "External ID assignment successful.", "The external ID has been assigned successfully.");
+        } catch (Exception e) {
+            return buildResponse(response, 500, "Unexpected error occurred: " + e.getMessage(), "An error occurred while processing your request. Please try again later.");
+        }
+    }
+
+    private ResponseEntity<Map<String, Object>> buildResponse(Map<String, Object> response, int status, String developerMessage, String userMessage) {
         response.put("status", status);
-        response.put("developerMessage", developerMessage);
-        response.put("userMessage", userMessage);
+        response.put("developer_message", developerMessage);
+        response.put("user_message", userMessage);
 
         HttpStatus httpStatus;
         switch (status) {
@@ -69,50 +109,4 @@ public class RegisterController {
         }
         return ResponseEntity.status(httpStatus).body(response);
     }
-
-
-
-    @PostMapping("/assignExtIdStudent")
-    public ResponseEntity<Map<String, Object>> assignExtIdStudent(@RequestBody Responsible newResponsible){
-        Map<String, Object> response = new HashMap<>();
-        return null;
-    }
-
-
-    @PostMapping("/registerResponsible")
-    public ResponseEntity<Map<String, Object>> registerResponsible(@RequestBody Responsible newResponsible) {
-        Map<String, Object> response = new HashMap<>();
-        try {
-            boolean isRegistered = registerService.registerResponsible(newResponsible).isPresent();
-            if (isRegistered) {
-                return assignValues(response, 200,
-                        "Responsible registration successful.",
-                        "The responsible has been registered successfully.");
-            } else {
-                return assignValues(response, 400,
-                        "Responsible registration failed due to invalid input or constraints.",
-                        "Failed to register the responsible. Please check your data.");
-            }
-        } catch (Exception e) {
-            return assignValues(response, 500,
-                    "An unexpected error occurred: " + e.getMessage(),
-                    "An error occurred while processing your request. Please try again later.");
-        }
-    }
-
-    @PostMapping("/createCourse")
-    public ResponseEntity<Map<String, Object>> createCourse(@RequestBody Course newCourse) {
-        Map<String, Object> response = new HashMap<>();
-        try {
-            Course course = registerService.createCourse(newCourse);
-            return assignValues(response, 200,
-                    "Course creation successful.",
-                    "The course has been created successfully.");
-        } catch (Exception e) {
-            return assignValues(response, 400,
-                    "Course creation failed: " + e.getMessage(),
-                    "Failed to create the course. Please check the provided data.");
-        }
-    }
-
 }
