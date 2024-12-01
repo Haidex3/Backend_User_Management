@@ -48,11 +48,7 @@ public class Course {
         return gradeName;
     }
 
-    /**
-     * Gets the name of the course.
-     *
-     * @return the name of the course.
-     */
+
     public String getName() {
         return name;
     }

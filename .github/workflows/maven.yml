@@ -3,10 +3,10 @@ name: Deploy Java App to Azure Web App
 on:
   push:
     branches:
-      - develop01 
+      - main 
 
 env:
-  AZURE_WEBAPP_NAME: 'userManagementBiblioSoft'  
+  AZURE_WEBAPP_NAME: 'usersbibliosoft'  
   AZURE_WEBAPP_PACKAGE_PATH: 'target/*.jar'  
   JAVA_VERSION: '21' 
 

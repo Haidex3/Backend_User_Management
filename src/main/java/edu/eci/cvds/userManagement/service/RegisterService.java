@@ -19,8 +19,6 @@ public class RegisterService {
     private final ResponsibleRepository responsibleRepository;
     private final StudentRepository studentRepository;
     private final CourseRepository courseRepository;
-    private final UserRepository userRepository;
-
     private final AdministratorRepository administratorRepository;
 
     @Autowired
@@ -28,12 +26,10 @@ public class RegisterService {
         this.responsibleRepository = responsibleRepository;
         this.studentRepository = studentRepository;
         this.courseRepository = courseRepository;
-        this.userRepository = userRepository;
         this.administratorRepository = administratorRepository;
     }
 
     public Optional<Student> registerStudent(Student student) {
-        userRepository.save((User) student);
         return Optional.of(studentRepository.save(student));
     }
 
