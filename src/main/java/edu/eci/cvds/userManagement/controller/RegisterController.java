@@ -82,19 +82,32 @@ public class RegisterController {
         }
     }
 
+    /**
+     * Endpoint to assign a new external ID to a student and activate them.
+     *
+     * @param token       The authorization token from the request header.
+     * @param requestData A map containing the student's ID ("studentId") and the new external ID ("newExtId").
+     * @return A ResponseEntity with the operation's status, message, and details.
+     */
     @PostMapping("/assignExtIdStudent")
     public ResponseEntity<Map<String, Object>> assignExtIdStudent(
             @RequestHeader("Authorization") String token,
-            @RequestBody Responsible newResponsible) {
+            @RequestBody Map<String, String> requestData) {
         Map<String, Object> response = new HashMap<>();
         try {
             jwtService.parseToken(token);
-
+            String studentId = requestData.get("studentId");
+            String newExtId = requestData.get("newExtId");
+            if (studentId == null || newExtId == null) {
+                return buildResponse(response, 400, "Missing required fields.", "Both 'studentId' and 'newExtId' must be provided.");
+            }
+            registerService.updateStudentExtIdAndActivate(studentId, newExtId);
             return buildResponse(response, 200, "External ID assignment successful.", "The external ID has been assigned successfully.");
         } catch (Exception e) {
             return buildResponse(response, 500, "Unexpected error occurred: " + e.getMessage(), "An error occurred while processing your request. Please try again later.");
         }
     }
+
 
     private ResponseEntity<Map<String, Object>> buildResponse(Map<String, Object> response, int status, String developerMessage, String userMessage) {
         response.put("status", status);

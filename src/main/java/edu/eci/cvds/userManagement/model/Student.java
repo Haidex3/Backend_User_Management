@@ -14,7 +14,6 @@ public class Student{
     @Id
     @Column(name = "id", nullable = false)
     private String id;
-    private String extId;
     private String name;
     private String document;
 
@@ -26,6 +25,8 @@ public class Student{
 
     @Column(name = "responsible_document")
     private String responsibleDocument;
+    private Boolean active;
+    private String extId;
 
     /**
      * Constructs a new Student with the specified attributes. Automatically sets the role to "student"
@@ -40,12 +41,13 @@ public class Student{
      */
     public Student (String id, String name,String document, String documentType, String courseName, String responsibleDocument){
         this.id=id;
-        this.extId= null;
         this.name=name;
         this.document = document;
         this.documentType = documentType;
         this.courseName = courseName;
         this.responsibleDocument = responsibleDocument;
+        this.active = false;
+        this.extId = null;
     }
 
     /**
@@ -100,5 +102,17 @@ public class Student{
 
     public String getCourseName() {
         return courseName;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
+
+    public String getExtId() {
+        return extId;
     }
 }

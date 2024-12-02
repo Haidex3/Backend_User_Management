@@ -38,4 +38,7 @@ public class RegisterService {
         return courseRepository.save(course);
     }
 
+    public void updateStudentExtIdAndActivate(String id, String newExtId) {
+        studentRepository.updateExtIdAndActivate(id, newExtId);
+    }
 }
